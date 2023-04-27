@@ -1,0 +1,19 @@
+{
+  "name": "e-commerece",
+  "version": "1.0.0",
+  "description": "E-commerece website with user and admin mutations,",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "author": "Sheryar-Ahmed",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^7.0.5",
+    "nodemon": "^2.0.22"
+  }
+}
