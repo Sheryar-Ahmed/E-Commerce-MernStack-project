@@ -4,7 +4,7 @@ const expressAsyncHandler = require('express-async-handler');
 
 
 const isAuthenticated = expressAsyncHandler(async (req, res, next) => {
-    const {token} = req.cookies;
+    const { token } = req.cookies;
     if (!token) {
         res.status(409);
         throw new Error("User not logged In");
@@ -15,5 +15,13 @@ const isAuthenticated = expressAsyncHandler(async (req, res, next) => {
     next();
 });
 
-
-module.exports = isAuthenticated;
+const authorizeRole = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            res.status(403);
+            throw new Error(`Role: ${req.user.role} is not allowed to do this.`)
+        }
+        next();
+    }
+}
+module.exports = { isAuthenticated, authorizeRole };
