@@ -42,6 +42,7 @@ const creatProduct = asyncHandler(async (req, res) => {
     if (!req.body) {
         throw new Error("Enter the key, pairs");
     }
+    // passing usr id to the body;
     req.body.user = req.user.id;
     const setProduct = await products.create(req.body);
     setProduct ? res.status(201).json({ success: true, setProduct }) : res.status(400)
