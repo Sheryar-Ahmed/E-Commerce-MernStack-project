@@ -1,6 +1,7 @@
 
 const expressAsyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const sendTokenWithCookie = require('../utils/cookieToken');
 
 const userRegistration = expressAsyncHandler(async (req, res) => {
     if (!req.body) {
@@ -12,6 +13,12 @@ const userRegistration = expressAsyncHandler(async (req, res) => {
     if (!name || !email || !password) {
         res.status(400);
         throw new Error("Something is missing");
+    };
+
+    const userExists = await User.findOne({ 'email': email });
+    if (userExists) {
+        res.status(409);
+        throw new Error("An email already exists, try with different email");
     };
     const registeredUser = await User.create({
         name,
@@ -27,10 +34,30 @@ const userRegistration = expressAsyncHandler(async (req, res) => {
         throw new Error("User not created, try again");
     };
 
-    res.status(201).json({
-        success: true,
-        registeredUser
-    })
+    sendTokenWithCookie(registeredUser, 201, res);
 });
 
-module.exports = { userRegistration };
+const userLogin = expressAsyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        res.status(400);
+        throw new Error("Something is missing");
+    };
+    // +password because we exclude in our schema;
+    const userFound = await User.findOne({ 'email': email }).select('+password');
+    if (!userFound) {
+        res.status(409);
+        throw new Error("Invalid credentials");
+    };
+    //method to compare password with db
+    const isPasswordMatched = await userFound.comparePassword(password);
+    if (!isPasswordMatched) {
+        res.status(409);
+        throw new Error("Invalid credentials");
+    };
+    
+    sendTokenWithCookie(userFound, 200, res);
+
+});
+
+module.exports = { userRegistration, userLogin };
