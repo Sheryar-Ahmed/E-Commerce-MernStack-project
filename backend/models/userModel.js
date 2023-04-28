@@ -41,13 +41,11 @@ const userSchema = new mongoose.Schema({
 
 });
 
-userSchema.pre("save", async function (next) {
-    //user updation of email, name etc except password then skip password hashing
-    if (!this.isModified("passowrd")) {
-        next();
-    }
-
-    this.password = await bcrypt.hash(this.password, 10)
-})
+userSchema.pre('save', async function(next) { // this line
+    const user = this;
+    if (!user.isModified('password')) return next();
+    user.password = await bcrypt.hash(user.password, 10);
+    next();
+});
 const user = mongoose.Models?.user || mongoose.model("user", userSchema);
 module.exports = user;
