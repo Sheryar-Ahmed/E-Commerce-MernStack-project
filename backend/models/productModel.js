@@ -60,6 +60,11 @@ const productSchema = new mongoose.Schema({
             }
         }
     ],
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'users',
+        required: [true, "Id cannot be empty"]
+    }
 },
     {
         timestamps: true,
