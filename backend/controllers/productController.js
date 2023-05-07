@@ -1,4 +1,4 @@
-const asyncHandler = require('express-async-handler');
+const expressAsyncHandler = require('express-async-handler');
 const ApiFeatures = require('../utils/apifeatures');
 const products = require('../models/productModel');
 
@@ -8,7 +8,7 @@ const products = require('../models/productModel');
 // @ Public
 // @ route  GET api/v1/products
 // @ apiFeature search, filter, pagination, price range etc 
-const getAllProduct = asyncHandler(async (req, res) => {
+const getAllProduct = expressAsyncHandler(async (req, res) => {
     const documentsPerPage = 5;
     const apiFeature = new ApiFeatures(products.find(), req.query)
         .search()
@@ -22,7 +22,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
 // @ Product Details 
 // @ Public
 // @ route  GET api/v1/products/:ID 
-const productDetails = asyncHandler(async (req, res) => {
+const productDetails = expressAsyncHandler(async (req, res) => {
     if (!req.params.id) {
         throw new Error("Enter the Id for updation");
     }
@@ -38,7 +38,7 @@ const productDetails = asyncHandler(async (req, res) => {
 // @ Create New Product 
 // @ ADMIN
 // @ route  POST api/v1/products 
-const creatProduct = asyncHandler(async (req, res) => {
+const creatProduct = expressAsyncHandler(async (req, res) => {
     if (!req.body) {
         throw new Error("Enter the key, pairs");
     }
@@ -51,7 +51,7 @@ const creatProduct = asyncHandler(async (req, res) => {
 // @ Update Product 
 // @ ADMIN
 // @ route  POST api/v1/products/:ID 
-const updateProduct = asyncHandler(async (req, res) => {
+const updateProduct = expressAsyncHandler(async (req, res) => {
     if (!req.params.id) {
         throw new Error("Enter the Id for updation");
     }
@@ -66,7 +66,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @ Del Product 
 // @ ADMIN
 // @ route  POST api/v1/products/:ID 
-const deleteProduct = asyncHandler(async (req, res) => {
+const deleteProduct = expressAsyncHandler(async (req, res) => {
     if (!req.params.id) {
         throw new Error("Enter the Id for updation");
     }
@@ -79,7 +79,58 @@ const deleteProduct = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true, message: "Product removed successfully" })
 
 });
+//create reviews or update the existed reviews;
+const createProductReview = expressAsyncHandler(async (req, res) => {
+    const { name, rating, comment, productId } = req.body;
+    if (!name || !rating || !comment || !productId) {
+        res.status(400);
+        throw new Error("keys are not valid");
+    };
+    const review = {
+        user: req.user._id,
+        name: name,
+        rating: Number(rating),
+        comment
+    };
+    //find product 
+    const product = await products.findById(productId);
+    if (!product) {
+        res.status(400);
+        throw new Error("Product not found with your id.");
+    };
+    //req.user._id is an string also same like req.user.id
+    const isReviewed = await product.reviews.find(rev => (rev.user.toString()) === (req.user._id.toString()));
+    if (isReviewed) {
+        //find that user and update its values
+        product.reviews.forEach((rev) => {
+            if (rev.user.toString() === req.user._id.toString())
+                (rev.rating = rating), (rev.comment = comment);
+        });
+    } else {
+        //simply push the review in the product.review array
+        product.reviews.push(review);
+        //noOfReviews 
+        product.numOfReviews = product.reviews.length
+    };
 
+    //ratings are our average
+    let ratingSum = 0;
+    let avg;
+    product.reviews.forEach((rev) => {
+        ratingSum += rev.rating;
+    });
+    console.log('rating',ratingSum);
+    avg = ratingSum / product.numOfReviews;
+    //setting the avg
+    product.ratings = avg;
+
+    await product.save();
+
+    res.status(201).json({
+        success: true,
+        message: "review Added Successfully."
+    });
+});
 
 module.exports = {
     getAllProduct,
@@ -87,4 +138,5 @@ module.exports = {
     creatProduct,
     updateProduct,
     deleteProduct,
+    createProductReview
 };
