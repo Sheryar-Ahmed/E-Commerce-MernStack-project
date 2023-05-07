@@ -220,6 +220,35 @@ const getSingleUser = expressAsyncHandler(async (req, res) => {
         user: user,
     });
 });
+//update role of the user --admin
+const updateRole = expressAsyncHandler(async (req, res) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role
+    };
+
+    const user = await User.findByIdAndUpdate(req.params.id, newUserData);
+    res.status(200).json({
+        success: true,
+        message: "role updated successfully with information."
+    });
+});
+//delete user --admin
+const deleteUser = expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        throw new Error(`User not Found with this id: ${req.params.id}`);
+    };
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+        success: true,
+        message: 'User deleted successfully.'
+    });
+});
+
+
 
 
 module.exports = {
@@ -232,5 +261,7 @@ module.exports = {
     updatePassword,
     updateProfile,
     getAllUsers,
-    getSingleUser
+    getSingleUser,
+    updateRole,
+    deleteUser
 };
