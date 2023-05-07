@@ -3,6 +3,8 @@ const expressAsyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const sendTokenWithCookie = require('../utils/cookieToken');
 const sendEmail = require('../utils/sendEmail.js')
+const crypto = require('crypto');
+
 
 const userRegistration = expressAsyncHandler(async (req, res) => {
     if (!req.body) {
@@ -75,12 +77,10 @@ const logout = expressAsyncHandler(async (req, res) => {
 
 });
 
-//forgot password
+//forgot password to send mail to user for recovery
 const forgotPassword = expressAsyncHandler(async (req, res) => {
     const { email } = req.body;
-    console.log(email);
     const user = await User.findOne({ 'email': email });
-    console.log(user);
     if (!user) {
         res.status(404);
         throw new Error("User not Found");
@@ -116,6 +116,38 @@ const forgotPassword = expressAsyncHandler(async (req, res) => {
     };
 
 });
+// resetPassword when clicks on forgot link
 
+const resetPassword = expressAsyncHandler(async (req, res) => {
+    //we create the hash of our token which we have sent to the forgot link, 
+    // converting randombyte to hash again inOrder to compare it to database
+    const resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(req.params.token)
+        .digest("hex");
 
-module.exports = { userRegistration, userLogin, logout, forgotPassword };
+    // we will find that user with this token and if the time is greater than now.
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    });
+    if (!user) {
+        res.status(404);
+        throw new Error("Either token is invlid or Time has expired");
+    };
+
+    if (req.body.password != req.body.confirmPassword) {
+        res.status(400);
+        throw new Error("password don't match");
+    };
+
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined; //remove from databse after reset password
+    user.resetPasswordExpire = undefined;
+    await user.save();
+
+    sendTokenWithCookie(user, 200, res);  //to login user 
+
+});
+
+module.exports = { userRegistration, userLogin, logout, forgotPassword, resetPassword };
