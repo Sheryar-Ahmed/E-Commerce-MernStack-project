@@ -149,5 +149,15 @@ const resetPassword = expressAsyncHandler(async (req, res) => {
     sendTokenWithCookie(user, 200, res);  //to login user 
 
 });
+//getUser own details
 
-module.exports = { userRegistration, userLogin, logout, forgotPassword, resetPassword };
+const getUserDetails = expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+    console.log("user", user);
+    res.status(200).json({
+        success: true,
+        user: user
+    })
+});
+
+module.exports = { userRegistration, userLogin, logout, forgotPassword, resetPassword, getUserDetails };
