@@ -8,7 +8,8 @@ const {
     getUserDetails,
     updatePassword,
     updateProfile,
-    getAllUsers
+    getAllUsers,
+    getSingleUser
 } = require("../controllers/userController");
 const { isAuthenticated, authorizeRole } = require('../middleware/authmiddleware');
 
@@ -24,6 +25,7 @@ router.route('/me').get(isAuthenticated, getUserDetails);
 router.route('/password/update').post(isAuthenticated, updatePassword);
 router.route('/me/update').post(isAuthenticated, updateProfile);
 router.route('/admin/users').get(isAuthenticated, authorizeRole("admin"), getAllUsers);
+router.route('/admin/user/:id').get(isAuthenticated, authorizeRole("admin"), getSingleUser);
 
 
 module.exports = router;

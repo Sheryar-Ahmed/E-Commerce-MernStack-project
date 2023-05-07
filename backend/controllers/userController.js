@@ -198,7 +198,7 @@ const updateProfile = expressAsyncHandler(async (req, res) => {
 //get all users for --admin
 const getAllUsers = expressAsyncHandler(async (req, res) => {
     const users = await User.find();
-    if(!users){
+    if (!users) {
         res.status(404);
         throw new Error("users not found");
     };
@@ -207,6 +207,20 @@ const getAllUsers = expressAsyncHandler(async (req, res) => {
         usersList: users,
     });
 });
+// get Single user for admin with the id
+const getSingleUser = expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        throw new Error(`User not found with this id: ${req.params.id}`);
+    };
+
+    res.status(200).json({
+        success: true,
+        user: user,
+    });
+});
+
 
 module.exports = {
     userRegistration,
@@ -217,5 +231,6 @@ module.exports = {
     getUserDetails,
     updatePassword,
     updateProfile,
-    getAllUsers
+    getAllUsers,
+    getSingleUser
 };
