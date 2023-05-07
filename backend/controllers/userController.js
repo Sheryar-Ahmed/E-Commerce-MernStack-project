@@ -153,11 +153,29 @@ const resetPassword = expressAsyncHandler(async (req, res) => {
 
 const getUserDetails = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id);
-    console.log("user", user);
     res.status(200).json({
         success: true,
         user: user
     })
 });
+//update password in the profile
+const updatePassword = expressAsyncHandler(async (req, res) => {
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+    const user = await User.findById(req.user.id).select("+password");
+    //will compare current password to the database
+    const isPasswordMatched = await user.comparePassword(oldPassword);
+    if (!isPasswordMatched) {
+        res.status(400);
+        throw new Error("Password is incorrect");
+    };
+    if (newPassword !== confirmPassword) {
+        res.status(400);
+        throw new Error("passwords does not match");
+    };
+    user.password = newPassword;
+    await user.save();
+    sendTokenWithCookie(user, 200, res);
+});
 
-module.exports = { userRegistration, userLogin, logout, forgotPassword, resetPassword, getUserDetails };
+
+module.exports = { userRegistration, userLogin, logout, forgotPassword, resetPassword, getUserDetails, updatePassword };
