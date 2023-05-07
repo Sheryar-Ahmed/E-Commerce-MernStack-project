@@ -2,6 +2,9 @@
 const expressAsyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const sendTokenWithCookie = require('../utils/cookieToken');
+const sendEmail = require('../utils/sendEmail.js')
+const crypto = require('crypto');
+
 
 const userRegistration = expressAsyncHandler(async (req, res) => {
     if (!req.body) {
@@ -71,6 +74,80 @@ const logout = expressAsyncHandler(async (req, res) => {
         success: true,
         message: "Logged out Successfully",
     });
-    
+
 });
-module.exports = { userRegistration, userLogin, logout };
+
+//forgot password to send mail to user for recovery
+const forgotPassword = expressAsyncHandler(async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ 'email': email });
+    if (!user) {
+        res.status(404);
+        throw new Error("User not Found");
+    };
+    const resetToken = user.getResetPasswordToken(); //it return resetToken
+    // our user has already created, we call getResetPasswordToken, it will add resetToken and expires time but will not save untill we do it manually.
+    await user.save({ validateBeforeSave: false });
+    //resetpasswordUrl
+    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`;
+    //message for customers
+    const message = `Here is your password Reset Token :- \n\n ${resetPasswordUrl} 
+    \n\n\n if you have not requested this email, please ignore it.`;
+    //
+    try {
+        //send Email function with an object object
+        await sendEmail({
+            email: user.email,
+            subject: 'Ecommerce Password Recovery.',
+            message,
+        });
+        res.status(200).json({
+            success: true,
+            message: "Email sent Successfully 😎."
+        })
+    } catch (err) {
+        //if any error comes, we need to undefine both resetpasswordtoken and expire time.
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+        await user.save({ validateBeforeSave: false });
+        //its an server error;
+        res.status(500);
+        throw new Error(err.message);
+    };
+
+});
+// resetPassword when clicks on forgot link
+
+const resetPassword = expressAsyncHandler(async (req, res) => {
+    //we create the hash of our token which we have sent to the forgot link, 
+    // converting randombyte to hash again inOrder to compare it to database
+    const resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(req.params.token)
+        .digest("hex");
+
+    // we will find that user with this token and if the time is greater than now.
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    });
+    if (!user) {
+        res.status(404);
+        throw new Error("Either token is invlid or Time has expired");
+    };
+
+    if (req.body.password != req.body.confirmPassword) {
+        res.status(400);
+        throw new Error("password don't match");
+    };
+
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined; //remove from databse after reset password
+    user.resetPasswordExpire = undefined;
+    await user.save();
+
+    sendTokenWithCookie(user, 200, res);  //to login user 
+
+});
+
+module.exports = { userRegistration, userLogin, logout, forgotPassword, resetPassword };
