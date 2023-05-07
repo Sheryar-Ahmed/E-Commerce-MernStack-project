@@ -176,6 +176,33 @@ const updatePassword = expressAsyncHandler(async (req, res) => {
     await user.save();
     sendTokenWithCookie(user, 200, res);
 });
+//update User profile
+const updateProfile = expressAsyncHandler(async (req, res) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email
+    };
+    //will add cloudnary later as avatar url etc
+    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
 
+    res.status(200).json({
+        success: true,
+        message: "user updated successfully",
+    })
 
-module.exports = { userRegistration, userLogin, logout, forgotPassword, resetPassword, getUserDetails, updatePassword };
+});
+
+module.exports = {
+    userRegistration,
+    userLogin,
+    logout,
+    forgotPassword,
+    resetPassword,
+    getUserDetails,
+    updatePassword,
+    updateProfile
+};
