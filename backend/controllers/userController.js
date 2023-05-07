@@ -195,6 +195,18 @@ const updateProfile = expressAsyncHandler(async (req, res) => {
     })
 
 });
+//get all users for --admin
+const getAllUsers = expressAsyncHandler(async (req, res) => {
+    const users = await User.find();
+    if(!users){
+        res.status(404);
+        throw new Error("users not found");
+    };
+    res.status(200).json({
+        success: true,
+        usersList: users,
+    });
+});
 
 module.exports = {
     userRegistration,
@@ -204,5 +216,6 @@ module.exports = {
     resetPassword,
     getUserDetails,
     updatePassword,
-    updateProfile
+    updateProfile,
+    getAllUsers
 };
