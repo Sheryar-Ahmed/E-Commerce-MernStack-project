@@ -119,7 +119,7 @@ const createProductReview = expressAsyncHandler(async (req, res) => {
     product.reviews.forEach((rev) => {
         ratingSum += rev.rating;
     });
-    console.log('rating',ratingSum);
+    console.log('rating', ratingSum);
     avg = ratingSum / product.numOfReviews;
     //setting the avg
     product.ratings = avg;
@@ -131,6 +131,21 @@ const createProductReview = expressAsyncHandler(async (req, res) => {
         message: "review Added Successfully."
     });
 });
+// get all reviews of a product 
+const getAllReviews = expressAsyncHandler(async (req, res) => {
+    const productId = req.query.id;
+    const product = await products.findById({ _id: productId });
+    if (!product) {
+        res.status(400);
+        throw new Error(`Product not found with this id: ${req.query.id}`);
+    };
+    res.status(200).json({
+        success: true,
+        reviews: product.reviews
+    })
+});
+
+
 
 module.exports = {
     getAllProduct,
@@ -138,5 +153,6 @@ module.exports = {
     creatProduct,
     updateProduct,
     deleteProduct,
-    createProductReview
+    createProductReview,
+    getAllReviews
 };
