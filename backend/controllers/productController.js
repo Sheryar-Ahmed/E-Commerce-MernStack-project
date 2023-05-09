@@ -144,7 +144,35 @@ const getAllReviews = expressAsyncHandler(async (req, res) => {
         reviews: product.reviews
     })
 });
+// delete reviews
 
+const deleteProductReview = expressAsyncHandler(async (req, res) => {
+    const productId = req.query.productId;
+    const product = await products.findById({ _id: productId });
+    if (!product) {
+        res.status(400);
+        throw new Error(`Product not found with this id: ${req.user.productId}`);
+    }
+    const reviews = await product.reviews.filter(rev => rev._id.toString() !== req.query.id.toString());
+    //we need to calculate the average again
+    let avg = 0;
+    reviews.forEach(rev => avg += rev.rating);
+    const ratings = avg / reviews.length;
+    const numOfReviews = reviews.length;
+    await products.findByIdAndUpdate(req.query.productId, {
+        reviews,
+        ratings,
+        numOfReviews
+    }, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    });
+    res.status(200).json({
+        success: true,
+
+    })
+});
 
 
 module.exports = {
@@ -154,5 +182,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     createProductReview,
-    getAllReviews
+    getAllReviews,
+    deleteProductReview
 };
