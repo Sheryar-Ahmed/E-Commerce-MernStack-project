@@ -35,16 +35,13 @@ class ApiFeatures {
         // const queryStr = await JSON.stringify(queryCopy); // to stringify the object in order to replace every key with $;
         // const queryStrnew = await queryStr.replace(/gt|gte|lt|lte/gi, key => `$${key}`);
         // const queryStrf =  await JSON.parse(queryStrnew);
-        // console.log(queryCopy, queryStrf);
         this.query = this.query.find(queryCopy);
         return this;
     }
     //for pagination
     pagination(documentsPerPage) {
         const currentPage = Number(this.queryStr.page) || 1;
-        console.log(currentPage);
         const skip = documentsPerPage * (currentPage - 1);
-        console.log(skip);
         this.query = this.query.limit(documentsPerPage).skip(skip);
         return this;
     }
