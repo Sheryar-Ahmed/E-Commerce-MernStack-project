@@ -1,10 +1,11 @@
 import './App.css';
-
+import { BrowserRouter as Router, route } from 'react-router-dom';
+import Header from './components/layout/header';
 function App() {
   return (
-    <h1 className="text-3xl underline">
-      Hello World
-    </h1>
+    <Router>
+      <Header />
+    </Router>
   );
 }
 

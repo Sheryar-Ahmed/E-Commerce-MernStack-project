@@ -3,6 +3,8 @@ module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./public/index.html",
+    "./src/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     screens: {
@@ -17,6 +19,7 @@ module.exports = {
       'pink': '#ff49db',
       'orange': '#ff7849',
       'green': '#13ce66',
+      'text-emerald-500': '#10b981',	
       'yellow': '#ffc82c',
       'gray-dark': '#273444',
       'gray': '#8492a6',
