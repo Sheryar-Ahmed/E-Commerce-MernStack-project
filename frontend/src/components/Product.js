@@ -1,31 +1,40 @@
 import React from 'react';
 import ReactStars from 'react-stars'
-import galaxy from '../assets/products/galaxy.png';
-const Product = () => {
+const Product = ({ product }) => {
+
+  const options = {
+    edit: false,
+    color: "rgba(20,20,20,0.1)",
+    value: product.ratings,
+    count: 5,
+    // onChange={ratingChanged}
+    size: 24,
+    color2: '#ffd700',
+    half: true,
+  }
+
   return (
     <div className='p-4 rounded-xl shadow-sm hover:shadow-lg'>
       <div className='w-64'>
         <div className='bg-blue-100 rounded-xl p-5'>
-          <img src={galaxy} alt={`galaxy`} />
+          <img src={product.images[0].url} alt={product.name} />
         </div>
         <div className='mt-2'>
-          <h3 className='font-bold text-lg truncate'>Galaxy S1</h3>
+          <h3 className='font-bold text-lg truncate'>{product.name}</h3>
         </div>
-        <p className='text-justify text-sm mt-2 line-clamp-4'>Samsung Galaxy mobile devices use One UI, a user interface based on Google's Android operating system (OS). The latest Samsung Galaxy S22 Ultra smartphone offers a 108-megapixel camera and can shoot video in 8K ultra-high-definition resolution. The Samsung Galaxy S10+ offers users 1 terabyte of internal storage.
-        </p>
+        <p className='text-justify text-sm mt-2 line-clamp-4'>{product.description}</p>
         <div className='flex flex-row justify-between items-center '>
-          <span className='font-bold text-3xl'>43,500 Rs</span>
+          <span className='font-bold text-3xl'>{product.price} Rs</span>
           <button className="bg-emerald-500 text-white py-1 px-3 rounded-lg">
             +
           </button>
         </div>
-        <ReactStars
-          count={5}
-          // onChange={ratingChanged}
-          size={24}
-          color2={'#ffd700'}
-          half={true}
-        />
+        <div className='w-64 flex flex-row items-center gap-2'>
+          <ReactStars
+            {...options}
+          />
+          <span>({product.numOfReviews} reviews)</span>
+        </div>
       </div>
     </div>
   )

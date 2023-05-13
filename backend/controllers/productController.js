@@ -9,14 +9,20 @@ const products = require('../models/productModel');
 // @ route  GET api/v1/products
 // @ apiFeature search, filter, pagination, price range etc 
 const getAllProduct = expressAsyncHandler(async (req, res) => {
-    const documentsPerPage = 5;
+    const documentsPerPage = 9;
+    const productsCount = await products.countDocuments();
     const apiFeature = new ApiFeatures(products.find(), req.query)
         .search()
         .filterByCategory()
         .filterByPrice()
         .pagination(documentsPerPage);
     // const productsAll = await products.find();
-    res.status(200).json(await apiFeature.query)
+    const productsALL = await apiFeature.query;
+    res.status(200).json({
+        success: true,
+        productsALL,
+        productsCount
+    })
 
 });
 // @ Product Details 
@@ -119,7 +125,6 @@ const createProductReview = expressAsyncHandler(async (req, res) => {
     product.reviews.forEach((rev) => {
         ratingSum += rev.rating;
     });
-    console.log('rating', ratingSum);
     avg = ratingSum / product.numOfReviews;
     //setting the avg
     product.ratings = avg;

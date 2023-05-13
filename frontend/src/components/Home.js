@@ -1,7 +1,14 @@
 import React from 'react';
 import bg from '../assets/images/bg-wall.jpg';
 import Product from './Product';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProducts } from '../actions/productAction';
 const Home = () => {
+  const dispatch = useDispatch();
+  const { loading, error, product, productsCount } = useSelector(state => state.products);
+  React.useEffect(() => {
+    dispatch(getAllProducts);
+  }, [dispatch])
   return <React.Fragment>
     <div className='w-full h-full'>
       <img src={bg} className='aspect-auto h-full' alt='Background' />
@@ -11,13 +18,16 @@ const Home = () => {
       <hr className='w-48 m-auto m-0' />
     </div>
     <div className='w-full flex flex-row justify-center align-items-center flex-wrap gap-4 py-3'>
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-
+      {loading
+        ?
+        <span>Please wait Loading</span>
+        :
+        product && product.map(
+          (product) => <Product
+            key={product._id}
+            product={product}
+          />
+        )}
     </div>
   </React.Fragment>
 };
