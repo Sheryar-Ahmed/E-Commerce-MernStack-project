@@ -3,6 +3,8 @@ import bg from '../assets/images/bg-wall.jpg';
 import Product from './Product';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from '../actions/productAction';
+import Loader from './Loader';
+
 const Home = () => {
   const dispatch = useDispatch();
   const { loading, error, product, productsCount } = useSelector(state => state.products);
@@ -20,7 +22,7 @@ const Home = () => {
     <div className='w-full flex flex-row justify-center align-items-center flex-wrap gap-4 py-3'>
       {loading
         ?
-        <span>Please wait Loading</span>
+        <Loader />
         :
         product && product.map(
           (product) => <Product

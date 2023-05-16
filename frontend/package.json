@@ -10,7 +10,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-loader-spinner": "^5.3.4",
     "react-redux": "^8.0.5",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
     "react-stars": "^2.2.5",
@@ -46,6 +48,5 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.2"
-  },
-  "proxy": "http://10.49.10.178:8000"
+  }
 }
