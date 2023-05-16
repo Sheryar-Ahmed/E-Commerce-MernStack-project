@@ -85,6 +85,7 @@ const ProductDetails = () => {
                     <hr className='bg-blue-400 w-[300px]' />
                     <h3 className='text-xl'>Description: </h3>
                     <p className='w-[300px] text-justify text-sm'>{productDetails.description}</p>
+                    <button className='rounded-xl w-32 bg-emerald-400 p-1'>Submit Review</button>
                 </div>
             }
         </div>
