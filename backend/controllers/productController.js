@@ -9,7 +9,7 @@ const products = require('../models/productModel');
 // @ route  GET api/v1/products
 // @ apiFeature search, filter, pagination, price range etc 
 const getAllProduct = expressAsyncHandler(async (req, res) => {
-    const documentsPerPage = 9;
+    const documentsPerPage = 4;
     const productsCount = await products.countDocuments();
     const apiFeature = new ApiFeatures(products.find(), req.query)
         .search()
@@ -21,7 +21,8 @@ const getAllProduct = expressAsyncHandler(async (req, res) => {
     res.status(200).json({
         success: true,
         productsALL,
-        productsCount
+        productsCount,
+        documentsPerPage,
     })
 
 });
@@ -153,18 +154,19 @@ const getAllReviews = expressAsyncHandler(async (req, res) => {
 
 const deleteProductReview = expressAsyncHandler(async (req, res) => {
     const productId = req.query.productId;
+    const review_id = req.query.id;
     const product = await products.findById({ _id: productId });
     if (!product) {
         res.status(400);
         throw new Error(`Product not found with this id: ${req.user.productId}`);
     }
-    const reviews = await product.reviews.filter(rev => rev._id.toString() !== req.query.id.toString());
+    const reviews = await product.reviews.filter(rev => rev._id.toString() !== review_id.toString());
     //we need to calculate the average again
     let avg = 0;
-    reviews.forEach(rev => avg += rev.rating);
-    const ratings = avg / reviews.length;
-    const numOfReviews = reviews.length;
-    await products.findByIdAndUpdate(req.query.productId, {
+    reviews.length > 0 && reviews.forEach(rev => avg += rev.rating);
+    const ratings = reviews.length > 0 ? avg / reviews.length : 0;
+    const numOfReviews = reviews.length > 0 ? reviews.length : 0;
+    await products.findByIdAndUpdate(productId, {
         reviews,
         ratings,
         numOfReviews
@@ -173,6 +175,7 @@ const deleteProductReview = expressAsyncHandler(async (req, res) => {
         runValidators: true,
         useFindAndModify: false
     });
+    await product.save();
     res.status(200).json({
         success: true,
 

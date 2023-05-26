@@ -6,6 +6,7 @@ import { getProductDetails } from '../actions/productAction';
 import { useParams } from 'react-router-dom';
 import Loader from './Loader';
 import ReactStars from 'react-stars';
+import Reviews from './Reviews';
 
 const ProductDetails = () => {
     let [unary, setunary] = React.useState(1);
@@ -25,71 +26,86 @@ const ProductDetails = () => {
         color2: '#ffd700',
         half: true,
     }
-    return (
-        <div className='w-full py-16 flex flex-row justify-center items-center flex-wrap gap-0 bg-blue-50'>
-            <div className='sm:px-2 md:px-2 lg:px-7 border border-blue self-stretch flex flex-col items-center justify-center'>
-                <Carousel
-                    showThumbs={false}
-                    className='w-[400px] sm:w-[300px] sm:py-2 self-stretch'
-                >
-                    {loading
-                        ? <Loader />
-                        : productDetails && productDetails.images
-                            .map((pic) =>
-                                <img
-                                    key={pic._id}
-                                    src={pic.url}
-                                    alt={productDetails.name}
-                                />
-                            )}
-                </Carousel>
-            </div>
-            {
-                productDetails &&
-                <div
-                    className='w-[400px] sm:w-[319px] md:w-[418px] md:px-2 self-stretch flex flex-col justify-start gap-2 items-start sm:px-2 pl-9 border border-blue py-2'
-                >
-                    <span>{productDetails.name}</span>
-                    <span>{'proudct # ' + productDetails._id}</span>
-                    <hr className='bg-blue-400 w-[300px]' />
-                    <ReactStars
-                        {...options}
-                    />
-                    <hr className='bg-blue-400 w-[300px]' />
-                    <h3 className='text-bold text-2xl'>{productDetails.price} Rs</h3>
-                    <div className='w-[300px] flex flex-row items-center gap-2 justify-start'>
-                        <div className='flex flex-row gap-0'>
-                            <button
-                                className='border border-blue-400 w-6 bg-blue-400 text-[#ffffff]'
-                                onClick={() => setunary(unary -= 1)}
-                            >
-                                -
-                            </button>
-                            <span className='w-14 flex items-center justify-center border border-blue-400'>{unary}</span>
-                            <button
-                                className='border border-blue-400 w-6 bg-blue-400 text-[#ffffff]'
-
-                                onClick={() => setunary(unary += 1)}
-                            >
-                                +
-                            </button>
-                        </div>
-                        <button className='rounded-xl w-28 bg-emerald-400 py-1'>Add to Cart</button>
+    return <React.Fragment>
+        {loading
+            ? <Loader />
+            : <div>
+                <div className='w-full py-16 flex flex-row justify-center items-center flex-wrap gap-0 bg-blue-50'>
+                    <div className='sm:px-2 md:px-2 lg:px-7 border border-blue self-stretch flex flex-col items-center justify-center'>
+                        <Carousel
+                            showThumbs={false}
+                            className='w-[400px] sm:w-[300px] sm:py-2 self-stretch'
+                        >
+                            {productDetails && productDetails.images
+                                .map((pic) =>
+                                    <img
+                                        key={pic._id}
+                                        src={pic.url}
+                                        alt={productDetails.name}
+                                    />
+                                )}
+                        </Carousel>
                     </div>
-                    <hr className='bg-blue-400 w-[300px]' />
-                    <span className='text-xl'>
-                        Status: <b className={productDetails.stock > 0 ? 'text-emerald-400' : 'text-[red]'}>
-                            {productDetails.stock > 0 ? "InStock" : "OutOfStock"}
-                        </b>
-                    </span>
-                    <hr className='bg-blue-400 w-[300px]' />
-                    <h3 className='text-xl'>Description: </h3>
-                    <p className='w-[300px] text-justify text-sm'>{productDetails.description}</p>
-                    <button className='rounded-xl w-32 bg-emerald-400 p-1'>Submit Review</button>
+                    {
+                        productDetails &&
+                        <div
+                            className='w-[400px] sm:w-[319px] md:w-[418px] md:px-2 self-stretch flex flex-col justify-start gap-2 items-start sm:px-2 pl-9 border border-blue py-2'
+                        >
+                            <span>{productDetails.name}</span>
+                            <span>{'proudct # ' + productDetails._id}</span>
+                            <hr className='bg-blue-400 w-[300px]' />
+                            <ReactStars
+                                {...options}
+                            />
+                            <hr className='bg-blue-400 w-[300px]' />
+                            <h3 className='text-bold text-2xl'>{productDetails.price} Rs</h3>
+                            <div className='w-[300px] flex flex-row items-center gap-2 justify-start'>
+                                <div className='flex flex-row gap-0'>
+                                    <button
+                                        className='border border-blue-400 w-6 bg-blue-400 text-[#ffffff]'
+                                        onClick={() => setunary(unary -= 1)}
+                                    >
+                                        -
+                                    </button>
+                                    <span className='w-14 flex items-center justify-center border border-blue-400'>{unary}</span>
+                                    <button
+                                        className='border border-blue-400 w-6 bg-blue-400 text-[#ffffff]'
+
+                                        onClick={() => setunary(unary += 1)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <button className='rounded-xl w-28 bg-emerald-400 py-1'>Add to Cart</button>
+                            </div>
+                            <hr className='bg-blue-400 w-[300px]' />
+                            <span className='text-xl'>
+                                Status: <b className={productDetails.stock > 0 ? 'text-emerald-400' : 'text-[red]'}>
+                                    {productDetails.stock > 0 ? "InStock" : "OutOfStock"}
+                                </b>
+                            </span>
+                            <hr className='bg-blue-400 w-[300px]' />
+                            <h3 className='text-xl'>Description: </h3>
+                            <p className='w-[300px] text-justify text-sm'>{productDetails.description}</p>
+                            <button className='rounded-xl w-32 bg-emerald-400 p-1'>Submit Review</button>
+                        </div>
+                    }
                 </div>
-            }
-        </div>
-    )
+                {/* Reviews */}
+                <div className='w-full flex flex-row items-center justify-start sm:justify-center flex-wrap bg-blue-50'>
+                    <div className='w-full flex flex-col items-center justify-center'>
+                        <h1 className='w-full text-center text-3xl mb-2'>Reviews</h1>
+                        <hr className='bg-blue-400 w-[300px]' />
+                    </div>
+                    <div className='w-full flex flex-row flex-wrap items-center justify-center py-4 gap-4'>
+                        {productDetails && productDetails.reviews.length > 0 ? productDetails.reviews
+                            .map((review) => <Reviews review={review} />
+                            ) : <span className='text-2xl w-[300px] border border-blue-100 text-center bg-blue-100'>No reviews Yet</span>}
+                    </div>
+                </div>
+            </div>
+        }
+    </React.Fragment>
 }
 
 export default ProductDetails;

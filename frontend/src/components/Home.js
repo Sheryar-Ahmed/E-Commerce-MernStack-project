@@ -7,9 +7,9 @@ import Loader from './Loader';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { loading, error, product, productsCount } = useSelector(state => state.products);
+  const { loading, error, product } = useSelector(state => state.products);
   React.useEffect(() => {
-    dispatch(getAllProducts);
+    dispatch(getAllProducts());
   }, [dispatch])
   return <React.Fragment>
     <div className='w-full h-full'>

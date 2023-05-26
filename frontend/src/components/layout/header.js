@@ -26,8 +26,26 @@ const Header = () => {
           </svg>
           <span>Checkout 0</span>
         </NavLink>
+        <NavLink
+          to="/products"
+          className={({ isActive }) =>
+            isActive ? 'text-blue  flex items-center flex-col' : 'flex items-center flex-col'
+          }
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className='w-7 h-7' viewBox="0 0 256 256"><rect fill="none" /><circle cx="60" cy="92" r="16" /><circle cx="128" cy="92" r="16" /><circle cx="196" cy="92" r="16" /><circle cx="60" cy="164" r="16" /><circle cx="128" cy="164" r="16" /><circle cx="196" cy="164" r="16" /></svg>
+          <span>products</span>
+        </NavLink>
       </div>
       <div className='basis-1/2 flex flex-row justify-end gap-4 mr-2'>
+        <NavLink
+          to="/products"
+          className={({ isActive }) =>
+            isActive ? 'text-blue  flex items-center flex-col' : 'flex items-center flex-col'
+          }
+        >
+          <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-search w-7 h-7" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" /> </svg>
+          <span>Search</span>
+        </NavLink>
         <NavLink
           to="/profile"
           className={({ isActive }) =>

@@ -10,10 +10,16 @@ import {
 } from '../constants/productConstant';
 
 
-export const getAllProducts = async (dispatch) => {
+export const getAllProducts = (keyword = "", currentPage = 1, price = [0, 100000], category) => async (dispatch) => {
     try {
         dispatch({ type: ALL_PRODUCT_REQUEST });
-        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/products`);
+        let link;
+        if (category) {
+            link = `${process.env.REACT_APP_BASE_URL}/api/v1/products/?keyword=${keyword}&page=${currentPage}&price[$gte]=${price[0]}&price[$lte]=${price[1]}&category=${category}`;
+        } else {
+            link = `${process.env.REACT_APP_BASE_URL}/api/v1/products/?keyword=${keyword}&page=${currentPage}&price[$gte]=${price[0]}&price[$lte]=${price[1]}`;
+        }
+        const { data } = await axios.get(link);
         dispatch({
             type: ALL_PRODUCT_SUCCESS,
             payload: data
