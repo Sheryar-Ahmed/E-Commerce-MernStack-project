@@ -10,14 +10,14 @@ import {
 } from '../constants/productConstant';
 
 
-export const getAllProducts = (keyword = "", currentPage = 1, price = [0, 100000], category) => async (dispatch) => {
+export const getAllProducts = (keyword = "", currentPage = 1, price = [0, 100000], category, ratings) => async (dispatch) => {
     try {
         dispatch({ type: ALL_PRODUCT_REQUEST });
         let link;
         if (category) {
-            link = `${process.env.REACT_APP_BASE_URL}/api/v1/products/?keyword=${keyword}&page=${currentPage}&price[$gte]=${price[0]}&price[$lte]=${price[1]}&category=${category}`;
+            link = `${process.env.REACT_APP_BASE_URL}/api/v1/products/?keyword=${keyword}&page=${currentPage}&price[$gte]=${price[0]}&price[$lte]=${price[1]}&category=${category}&ratings=${ratings}`;
         } else {
-            link = `${process.env.REACT_APP_BASE_URL}/api/v1/products/?keyword=${keyword}&page=${currentPage}&price[$gte]=${price[0]}&price[$lte]=${price[1]}`;
+            link = `${process.env.REACT_APP_BASE_URL}/api/v1/products/?keyword=${keyword}&page=${currentPage}&price[$gte]=${price[0]}&price[$lte]=${price[1]}&ratings[$gte]=${ratings}`;
         }
         const { data } = await axios.get(link);
         dispatch({

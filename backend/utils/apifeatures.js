@@ -22,19 +22,27 @@ class ApiFeatures {
     filterByCategory() {
         //filter according to the category and removed the extra keywords except cateogry in our req.query like keword, pagination, price etc
         const queryCopy = { ...this.queryStr }; //converted into object in order to filter.
-        const removeFields = ["keyword", "page", "limit"];
+        const removeFields = ["keyword", "page", "limit", "ratings"];
         removeFields.forEach(key => delete queryCopy[key]);
         this.query = this.query.find(queryCopy);
         return this;
     }
     filterByPrice() {
         const queryCopy = { ...this.queryStr };   //convert this into object
-        const removeFields = ["keyword", "page", "limit", "category"];
+        const removeFields = ["keyword", "page", "limit", "category", "ratings"];
         removeFields.forEach(key => delete queryCopy[key]);
         //for pricing we need to add lt, lte, gt, gte and add before $ with the help of regex 
         // const queryStr = await JSON.stringify(queryCopy); // to stringify the object in order to replace every key with $;
         // const queryStrnew = await queryStr.replace(/gt|gte|lt|lte/gi, key => `$${key}`);
         // const queryStrf =  await JSON.parse(queryStrnew);
+        this.query = this.query.find(queryCopy);
+        return this;
+    }
+    //filterbyrating
+    filterByRating() {
+        const queryCopy = { ...this.queryStr }; //converted into object in order to filter.
+        const removeFields = ["keyword", "page", "limit", "price"];
+        removeFields.forEach(key => delete queryCopy[key]);
         this.query = this.query.find(queryCopy);
         return this;
     }

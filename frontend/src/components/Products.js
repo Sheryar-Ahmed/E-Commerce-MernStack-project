@@ -8,8 +8,10 @@ import Pagination from "./Pagination";
 import Slider from '@mui/material/Slider';
 import Tooltip from '@mui/material/Tooltip';
 import { useDebounce } from 'use-debounce';
+import ReactStars from 'react-stars';
 
 const Products = () => {
+
   const dispatch = useDispatch();
   //search
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,8 +19,24 @@ const Products = () => {
   const [currentPage, setcurrentPage] = React.useState(1);
   const [price, setPrice] = React.useState([0, 500000]);
   const [category, setCategory] = React.useState("");
-  const [value] = useDebounce(price, 1000);
+  const [ratings, setRatings] = React.useState(0);
+  const [ratingsdeb] = useDebounce(ratings, 1000);
+  const [pricedb] = useDebounce(price, 1000);
 
+
+
+  const options = {
+    edit: true,
+    color: "rgba(20,20,20,0.1)",
+    count: 5,
+    value: ratings,
+    size: 24,
+    color2: '#ffd700',
+    half: true,
+  };
+  const ratingChanged = (newRating) => {
+    setRatings(newRating);
+  }
   //categories
   let categoryList = [
     "Laptop",
@@ -40,9 +58,9 @@ const Products = () => {
   }
   React.useEffect(() => {
 
-    dispatch(getAllProducts(keyword, currentPage, price, category));
+    dispatch(getAllProducts(keyword, currentPage, price, category, ratings));
 
-  }, [dispatch, keyword, currentPage, value, category]);
+  }, [dispatch, keyword, currentPage, pricedb, category, ratingsdeb]);
   const { loading, error, product, resultPerPage, productsCount } = useSelector(state => state.products);
   return (loading
     ? <Loader />
@@ -84,6 +102,20 @@ const Products = () => {
             min={0}
             max={500000}
           />
+          <span className='w-full text-start'>Ratings</span>
+          <ReactStars
+            {...options}
+            onChange={ratingChanged}
+          />
+          {/* <Slider
+            size="small"
+            sx={{ width: '80%' }}
+            value={price}
+            onChange={handleChange}
+            valueLabelDisplay="auto"
+            min={0}
+            max={500000}
+          /> */}
           <div className='w-full flex flex-row gap-2 items-center justify-start'>
             <span className='text-start'>
               Category
@@ -92,7 +124,7 @@ const Products = () => {
               <svg
                 onClick={() => setCategory("")}
                 width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="48" height="48" fill="white" fillOpacity="0.01" /><path d="M14 14L34 34" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 34L34 14" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                <rect width="48" height="48" fill="white" fillOpacity="0.01" /><path d="M14 14L34 34" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 34L34 14" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </Tooltip>
           </div>
           <ul className='w-2/3 list-disc'>

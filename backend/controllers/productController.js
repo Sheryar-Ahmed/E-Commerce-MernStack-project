@@ -15,6 +15,7 @@ const getAllProduct = expressAsyncHandler(async (req, res) => {
         .search()
         .filterByCategory()
         .filterByPrice()
+        .filterByRating()
         .pagination(documentsPerPage);
     // const productsAll = await products.find();
     const productsALL = await apiFeature.query;
