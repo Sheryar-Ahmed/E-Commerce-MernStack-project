@@ -92,7 +92,15 @@ const Products = () => {
       </form>
       <div className='w-full flex flex-row items-start justify-center flex-wrap'>
         <div className='w-[200px] mt-10 flex flex-col items-center justify-start'>
-          <span className='w-full text-start'>Price</span>
+          <div className='w-full flex flex-row gap-2 items-center justify-start'>
+            <span className='text-start'>Price</span>
+            <Tooltip title="Clear Filter" placement="bottom">
+              <svg
+                onClick={() => { setCategory(""); setRatings(0);}}
+                width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="48" height="48" fill="white" fillOpacity="0.01" /><path d="M14 14L34 34" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 34L34 14" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </Tooltip>
+          </div>
           <Slider
             size="small"
             sx={{ width: '80%' }}
@@ -107,26 +115,10 @@ const Products = () => {
             {...options}
             onChange={ratingChanged}
           />
-          {/* <Slider
-            size="small"
-            sx={{ width: '80%' }}
-            value={price}
-            onChange={handleChange}
-            valueLabelDisplay="auto"
-            min={0}
-            max={500000}
-          /> */}
-          <div className='w-full flex flex-row gap-2 items-center justify-start'>
-            <span className='text-start'>
-              Category
-            </span>
-            <Tooltip title="Clear Filter" placement="bottom">
-              <svg
-                onClick={() => setCategory("")}
-                width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="48" height="48" fill="white" fillOpacity="0.01" /><path d="M14 14L34 34" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 34L34 14" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </Tooltip>
-          </div>
+          <span className='w-full text-start'>
+            Category
+          </span>
+
           <ul className='w-2/3 list-disc'>
             {categoryList.map(
               (item) =>
