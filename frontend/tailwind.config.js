@@ -14,6 +14,7 @@ module.exports = {
       'xl': {'min': '1200px'},
     },
     colors: {
+      'white': 'rgb(255 255 255)',
       'blue': '#1fb6ff',
       'purple': '#7e5bef',
       'pink': '#ff49db',
@@ -35,12 +36,13 @@ module.exports = {
       'blue-800': 'rgb(30 64 175)',
       'blue-900': 'rgb(30 58 138)',
       'blue-950': 'rgb(23 37 84)',
-      'emerald-50	': 'rgb(236 253 245)',
+      'emerald-50': 'rgb(236 253 245)',
       'emerald-100': ' rgb(209 250 229',
       'emerald-200': ' rgb(167 243 208',
       'emerald-300': ' rgb(110 231 183',
       'emerald-400': ' rgb(52 211 153)',
       'emerald-500': ' rgb(16 185 129)',
+      'cyan-500'	: 'rgb(6 182 212)',
     },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
