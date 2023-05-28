@@ -24,12 +24,13 @@ const Home = () => {
         ?
         <Loader />
         :
-        product && product.map(
+        product && product.length > 0 ? product.map(
           (product) => <Product
             key={product._id}
             product={product}
           />
-        )}
+        ) : <div>There is no Featured Product Yet</div>}
+      {error && <div>error</div>}
     </div>
   </React.Fragment>
 };

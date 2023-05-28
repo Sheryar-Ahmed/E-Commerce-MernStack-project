@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userDetails } from '../../actions/userAction';
 const Header = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+
+    dispatch(userDetails());
+
+  }, [dispatch]);
+
+  const { loading, error, user } = useSelector(state => state.user);
+
   return (
     <div className='w-full flex flex-row items-center justify-center shadow-md h-16 gap-1'>
       <div className='basis-1/2 flex flex-row justify-end gap-4'>
@@ -43,21 +55,10 @@ const Header = () => {
             isActive ? 'text-blue  flex items-center flex-col' : 'flex items-center flex-col'
           }
         >
-          <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-search w-7 h-7" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" /> </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-search w-7 h-7" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" /> </svg>
           <span>Search</span>
         </NavLink>
-        <NavLink
-          to="/profile"
-          className={({ isActive }) =>
-            isActive ? 'text-blue  flex items-center flex-col' : 'flex items-center flex-col'
-          }
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          <span>profile</span>
-        </NavLink>
-        <NavLink
+        {!user && <NavLink
           to="/login"
           className={({ isActive }) =>
             isActive ? 'text-blue  flex items-center flex-col' : 'flex items-center flex-col'
@@ -67,6 +68,22 @@ const Header = () => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
           </svg>
           <span>login</span>
+        </NavLink>}
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            isActive ? 'text-blue  flex items-center flex-col' : 'flex items-center flex-col'
+          }
+        >
+          {!user && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>}
+          {user && user.avatar && user.avatar.url && <img
+            src={`data:image/jpeg;base64,${user.avatar.url}`}
+            alt={user.avatar.url}
+            className='w-12 h-12 rounded-lg'
+          />}
+          {!user && <span>profile</span>}
         </NavLink>
       </div>
     </div>

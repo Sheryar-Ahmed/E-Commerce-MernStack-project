@@ -10,7 +10,7 @@ import {
 } from '../constants/productConstant';
 
 
-export const getAllProducts = (keyword = "", currentPage = 1, price = [0, 100000], category, ratings) => async (dispatch) => {
+export const getAllProducts = (keyword = "", currentPage = 1, price = [0, 100000], category="", ratings=0) => async (dispatch) => {
     try {
         dispatch({ type: ALL_PRODUCT_REQUEST });
         let link;

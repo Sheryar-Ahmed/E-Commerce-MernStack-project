@@ -6,7 +6,16 @@ import Home from './components/Home';
 import ProductDetails from './components/ProductDetails';
 import Products from './components/Products';
 import UserAuth from './components/UserAuth';
+import Account from './components/Account';
+import { useEffect } from 'react';
+import store from './store';
+import { userDetails } from './actions/userAction';
+
+
 function App() {
+  useEffect(() => {
+    store.dispatch(userDetails());
+  }, [])
   return (
     <BrowserRouter>
       <Header />
@@ -15,6 +24,7 @@ function App() {
         <Route exact path='/details/:id' Component={ProductDetails} />
         <Route exact path='/products' Component={Products} />
         <Route exact path='/login' Component={UserAuth} />
+        <Route exact path='/profile' Component={Account} />
       </Routes>
       <Footer />
     </BrowserRouter>

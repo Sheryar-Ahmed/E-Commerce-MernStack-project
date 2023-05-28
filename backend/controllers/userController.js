@@ -2,18 +2,16 @@
 const expressAsyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const sendTokenWithCookie = require('../utils/cookieToken');
-const sendEmail = require('../utils/sendEmail.js')
+const sendEmail = require('../utils/sendEmail.js');
 const crypto = require('crypto');
-
 
 const userRegistration = expressAsyncHandler(async (req, res) => {
     if (!req.body) {
         res.status(400);
         throw new Error("Nothin in request");
     };
-
-    const { name, email, password } = await req.body;
-    if (!name || !email || !password) {
+    const { name, email, avatar, password } = await req.body;
+    if (!name || !email || !avatar ||  !password) {
         res.status(400);
         throw new Error("Something is missing");
     };
@@ -27,10 +25,7 @@ const userRegistration = expressAsyncHandler(async (req, res) => {
         name,
         email,
         password,
-        avatar: {
-            public_id: "temporary allotment",
-            url: "temporary.com/profilepic",
-        }
+        avatar,
     });
     if (!registeredUser) {
         res.status(400)
@@ -67,7 +62,7 @@ const logout = expressAsyncHandler(async (req, res) => {
 
     res.cookie("token", null, {
         expires: new Date(Date.now()),
-        httpOnly: true,
+        httpOnly : true,
     });
 
     res.status(200).json({

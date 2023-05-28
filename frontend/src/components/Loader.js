@@ -4,7 +4,7 @@ import { CirclesWithBar } from 'react-loader-spinner';
 
 const Loader = () => {
     return (
-        <div className='w-full flex items-center justify-center h-screen'>
+        <div className='w-full flex items-center justify-center h-full absolute top-6/12 left-6/12'>
             <CirclesWithBar
                 height="100"
                 width="100"

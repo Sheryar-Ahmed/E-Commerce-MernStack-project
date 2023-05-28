@@ -7,7 +7,7 @@ const sendTokenWithCookie = (user, statusCode, res) => {
         expires: new Date(
             Date.now() + process.env.COOKIE_EXPIRE * 24 * 3600 * 1000
         ),
-        httpOnly: true,
+        httpOnly : true,
     }
     //sending and saving in cookie instead of localstorage which is not a good method
     res.status(statusCode).cookie("token", token, options).json({

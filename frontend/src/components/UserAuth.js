@@ -5,6 +5,12 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import BackgroundHeader from '../assets/images/login.jpg';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin, userRegistration } from '../actions/userAction';
+import Loader from './Loader';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+// import Avatar from '../assets/images/avatar.svg';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -40,11 +46,45 @@ function a11yProps(index) {
 }
 
 export default function UserAuth() {
-    const [value, setValue] = React.useState(0);
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [value, setValue] = React.useState(0);
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [name, setName] = React.useState("");
+    const [avatar, setAvatar] = React.useState();
+
+    const handleAvatar = (e) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState == 2) {
+                setAvatar(reader.result);
+            }
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const userData = {
+        name,
+        email,
+        password,
+    };
+    const LoginHandler = (e) => {
+        e.preventDefault();
+        dispatch(userLogin(email, password))
+    };
+    const RegistrationHandler = async (e) => {
+        e.preventDefault();
+        dispatch(userRegistration(userData, avatar));
+    }
+    const { isAuthenticated, loading, user, error } = useSelector(state => state.user);
+    
+    React.useEffect(() => {
+        (isAuthenticated && navigate('/profile'));
+    }, [isAuthenticated, navigate])
 
     return (
         <Box
@@ -69,18 +109,38 @@ export default function UserAuth() {
                                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                     Sign in to your account
                                 </h1>
-                                <form className="space-y-4 md:space-y-6" action="#">
+                                <form className="space-y-4 md:space-y-6 relative" onSubmit={LoginHandler}>
+                                    {loading && <Loader />}
                                     <div>
-                                        <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                        <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
+                                        <label
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                                        <input
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            value={email}
+                                            type="email"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="name@company.com"
+                                            required={true}
+                                        />
                                     </div>
                                     <div>
-                                        <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                        <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
+                                        <label
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                        <input
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            value={password}
+                                            type="password"
+                                            placeholder="••••••••"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            required={true}
+                                        />
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
                                     </div>
+                                    {error && <div className="flex items-center justify-center">
+                                        <span className='text-orange'>{error}</span>
+                                    </div>}
                                     <button type="submit" className="w-full text-white bg-blue-400 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-700 dark:hover:bg-blue-900 dark:focus:ring-blue-800">Sign in</button>
                                 </form>
                             </div>
@@ -100,22 +160,62 @@ export default function UserAuth() {
                                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                     Create and account
                                 </h1>
-                                <form className="space-y-4 md:space-y-6">
+                                <form className="space-y-4 md:space-y-6 relative" onSubmit={RegistrationHandler}>
+                                    {loading && <Loader />}
                                     <div>
-                                        <label for="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Full Name</label>
-                                        <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John Smith" required={true} />
+                                        <label
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Full Name</label>
+                                        <input
+                                            type="text"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="John Smith"
+                                            required={true}
+                                        />
                                     </div>
                                     <div>
-                                        <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                        <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required={true} />
+                                        <label
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Your email
+                                        </label>
+                                        <input
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            value={email}
+                                            type="email"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="name@company.com"
+                                            required={true}
+                                        />
+                                    </div>
+                                    <div className={user && user.avatar ? `w-full flex flex-row gap-2 items-center justify-start` : ''}>
+                                        <label
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            {user && user.avatar && <img
+                                                src={`data:image/jpeg;base64,${user.avatar.url}`}
+                                                alt={user.avatar.url}
+                                                className='w-[70px] h-14 aspect-square rounded-xl bg-contain'
+                                            />}
+                                        </label>
+                                        <input
+                                            type="file"
+                                            accept='.png, .jpg, .jpeg'
+                                            onChange={handleAvatar}
+                                            className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            required={true}
+                                        />
                                     </div>
                                     <div>
-                                        <label for="Avatar" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile Photo</label>
-                                        <input type="file" name="Avatar" id="Avatar" accept='.png, .jpg, .jpeg' className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required={true} />
-                                    </div>
-                                    <div>
-                                        <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                        <input type="password" name="password" id="password" placeholder="••••••••" minLength={8} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required={true} />
+                                        <label
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                        <input
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            value={password}
+                                            type="password"
+                                            placeholder="••••••••"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            required={true}
+                                        />
                                     </div>
                                     <div className="flex items-start">
                                         <div className="flex items-center h-5">
