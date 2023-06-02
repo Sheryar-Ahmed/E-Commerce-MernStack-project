@@ -63,7 +63,7 @@ const Products = () => {
   }, [dispatch, keyword, currentPage, pricedb, category, ratingsdeb]);
   const { loading, error, product, resultPerPage, productsCount } = useSelector(state => state.products);
   return (loading
-    ? <Loader />
+    ? <div className='w-full h-screen relative'><Loader /></div>
     :
     <div className='w-full flex flex-col items-center justify-center mt-3'>
       <h1 className='text-3xl text-center'>Products</h1>
@@ -96,7 +96,7 @@ const Products = () => {
             <span className='text-start'>Price</span>
             <Tooltip title="Clear Filter" placement="bottom">
               <svg
-                onClick={() => { setCategory(""); setRatings(0);}}
+                onClick={() => { setCategory(""); setRatings(0); }}
                 width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="48" height="48" fill="white" fillOpacity="0.01" /><path d="M14 14L34 34" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 34L34 14" stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </Tooltip>

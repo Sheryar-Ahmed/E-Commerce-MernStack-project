@@ -36,6 +36,8 @@ const userSchema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 
+}, {
+    timestamps: true
 });
 // hasing password before uploading to mongodb
 userSchema.pre('save', async function (next) { // this line

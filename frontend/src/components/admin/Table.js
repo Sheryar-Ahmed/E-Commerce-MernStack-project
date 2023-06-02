@@ -12,7 +12,7 @@ export default function DenseTable({ rows, cell }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
+        <TableHead sx={{ background: 'yellowgreen' }}>
           <TableRow>
             <TableCell>{cell[0]}</TableCell>
             {cell.map((item, i) => <TableCell align="right">{cell[i + 1]}</TableCell>)}

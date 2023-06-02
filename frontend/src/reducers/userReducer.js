@@ -8,7 +8,13 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
-    CLEAR_ERROR
+    USER_UPDATE_pass_REQUEST,
+    USER_UPDATE_pass_SUCCESS,
+    USER_UPDATE_pass_FAIL,
+    CLEAR_ERROR,
+    USER_LOGOUT_REQUEST,
+    USER_LOGOUT_SUCCESS,
+    USER_LOGOUT_FAIL
 } from '../constants/userConstant';
 
 
@@ -56,3 +62,58 @@ export const userReducer = (state = { user: {} }, action) => {
             return state;
     }
 };
+
+export const updatePasswordReducer = (state = { updatePass: {} }, action) => {
+    switch (action.type) {
+        case USER_UPDATE_pass_REQUEST:
+            return {
+                loadingPass: true,
+                updatePass: {}
+            }
+        case USER_UPDATE_pass_SUCCESS:
+            return {
+                loadingPass: false,
+                updatePass: action.payload,
+                userPass: action.payload.user,
+            }
+        case USER_UPDATE_pass_FAIL:
+            return {
+                loadingPass: false,
+                errorPass: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                errorPass: null
+            }
+        default:
+            return state;
+    }
+};
+export const logoutUserReducer = (state = { logout: {} }, action) => {
+    switch (action.type) {
+        case USER_LOGOUT_REQUEST:
+            return {
+                loadingPass: true,
+                logout: {},
+            }
+        case USER_LOGOUT_SUCCESS:
+            return {
+                loadingPass: false,
+                logout: action.payload,
+            }
+        case USER_LOGOUT_FAIL:
+            return {
+                loadingPass: false,
+                errorPass: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                errorPass: null
+            }
+        default:
+            return state;
+    }
+};
+

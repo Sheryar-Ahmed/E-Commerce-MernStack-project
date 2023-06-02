@@ -11,7 +11,8 @@ import { useEffect } from 'react';
 import store from './store';
 import { userDetails } from './actions/userAction';
 import Dashboard from './components/admin/dashboard/Dashboard';
-import AddProduct from './components/admin/AddProduct';
+import MyOrder from './components/MyOrder';
+import ProtectedRoute from './components/routes/ProtectedRoute';
 
 function App() {
   useEffect(() => {
@@ -25,7 +26,15 @@ function App() {
         <Route exact path='/details/:id' Component={ProductDetails} />
         <Route exact path='/products' Component={Products} />
         <Route exact path='/login' Component={UserAuth} />
-        <Route exact path='/profile' Component={Account} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute >
+              <Account />
+            </ProtectedRoute>
+          }
+        />
+        <Route exact path='/myorders' Component={MyOrder} />
         <Route exact path='/admin/dashboard' Component={Dashboard} />
       </Routes>
       <Footer />

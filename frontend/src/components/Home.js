@@ -22,7 +22,7 @@ const Home = () => {
     <div className='w-full flex flex-row justify-center align-items-center flex-wrap gap-4 py-3'>
       {loading
         ?
-        <Loader />
+        <div className='w-full h-screen relative'><Loader /></div>
         :
         product && product.length > 0 ? product.map(
           (product) => <Product

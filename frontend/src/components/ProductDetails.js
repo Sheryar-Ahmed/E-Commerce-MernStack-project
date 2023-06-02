@@ -28,7 +28,7 @@ const ProductDetails = () => {
     }
     return <React.Fragment>
         {loading
-            ? <Loader />
+            ? <div className='w-full h-screen relative'><Loader /></div>
             : <div>
                 <div className='w-full py-16 flex flex-row justify-center items-center flex-wrap gap-0 bg-blue-50'>
                     <div className='sm:px-2 md:px-2 lg:px-7 border border-blue self-stretch flex flex-col items-center justify-center'>

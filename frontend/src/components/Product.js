@@ -9,7 +9,6 @@ const Product = ({ product }) => {
     color: "rgba(20,20,20,0.1)",
     value: product.ratings,
     count: 5,
-    // onChange={ratingChanged}
     size: 24,
     color2: '#ffd700',
     half: true,
