@@ -10,7 +10,8 @@ import Account from './components/Account';
 import { useEffect } from 'react';
 import store from './store';
 import { userDetails } from './actions/userAction';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/admin/dashboard/Dashboard';
+import AddProduct from './components/admin/AddProduct';
 
 function App() {
   useEffect(() => {
@@ -25,7 +26,7 @@ function App() {
         <Route exact path='/products' Component={Products} />
         <Route exact path='/login' Component={UserAuth} />
         <Route exact path='/profile' Component={Account} />
-        <Route exact path='/dashboard' Component={Dashboard} />
+        <Route exact path='/admin/dashboard' Component={Dashboard} />
       </Routes>
       <Footer />
     </BrowserRouter>
