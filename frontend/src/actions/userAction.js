@@ -14,7 +14,10 @@ import {
     USER_UPDATE_pass_FAIL,
     USER_LOGOUT_REQUEST,
     USER_LOGOUT_SUCCESS,
-    USER_LOGOUT_FAIL
+    USER_LOGOUT_FAIL,
+    USER_UPDATED_REQUEST,
+    USER_UPDATED_SUCCESS,
+    USER_UPDATED_FAIL
 } from '../constants/userConstant';
 import axios from 'axios';
 
@@ -91,5 +94,18 @@ export const logoutUser = () => async (dispatch) => {
 
     } catch (error) {
         dispatch({ type: USER_LOGOUT_FAIL, payload: error.response.data.message })
+    }
+};
+
+
+export const updatedProfile = (userPass) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_UPDATED_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/me/update`, userPass, config);
+        dispatch({ type: USER_UPDATED_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({ type: USER_UPDATED_FAIL, payload: error.response.data.message })
+
     }
 };

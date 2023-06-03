@@ -9,13 +9,14 @@ import Slider from '@mui/material/Slider';
 import Tooltip from '@mui/material/Tooltip';
 import { useDebounce } from 'use-debounce';
 import ReactStars from 'react-stars';
+import ClearSearch from '@mui/icons-material/ClearOutlined';
 
 const Products = () => {
 
   const dispatch = useDispatch();
   //search
   const [searchParams, setSearchParams] = useSearchParams();
-  const [keyword, setKeyword] = React.useState("");
+  const [searchParamsdb] = useDebounce(searchParams.get('keyword'), 1500);
   const [currentPage, setcurrentPage] = React.useState(1);
   const [price, setPrice] = React.useState([0, 500000]);
   const [category, setCategory] = React.useState("");
@@ -51,16 +52,23 @@ const Products = () => {
   const handleChange = (event, newValue) => {
     setPrice(newValue);
   };
+  const onSearchParams = (e) => {
+    if ((e.target.value)) {
+      setSearchParams({ 'keyword': e.target.value })
+    } else {
+      setSearchParams({ 'keyword': "" });
+    }
+  };
 
   const searchHandler = (e) => {
     e.preventDefault();
-    setKeyword(searchParams.get('keyword'));
-  }
+  };
+  let keyword = "";
   React.useEffect(() => {
 
-    dispatch(getAllProducts(keyword, currentPage, price, category, ratings));
+    dispatch(getAllProducts(searchParams.get('keyword') || keyword, currentPage, price, category, ratings));
 
-  }, [dispatch, keyword, currentPage, pricedb, category, ratingsdeb]);
+  }, [dispatch, searchParamsdb, currentPage, pricedb, category, ratingsdeb]);
   const { loading, error, product, resultPerPage, productsCount } = useSelector(state => state.products);
   return (loading
     ? <div className='w-full h-screen relative'><Loader /></div>
@@ -81,8 +89,12 @@ const Products = () => {
             className="block w-full p-4 pl-10 text-sm text-emerald-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-blue-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search..."
             required
-            onChange={(e) => setSearchParams({ 'keyword': e.target.value })}
+            value={searchParams.get('keyword')}
+            onChange={(e) => onSearchParams(e)}
           />
+          <div className="absolute inset-y-0 right-0 flex items-center pr-24 ">
+            <ClearSearch className="w-5 h-5 text-emerald-400 dark:text-emerald-500 " onClick={() => { searchParams.delete('keyword'); setSearchParams(searchParams) }} />
+          </div>
           <button
             type="submit"
             className="text-blue-100 absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

@@ -14,7 +14,10 @@ import {
     CLEAR_ERROR,
     USER_LOGOUT_REQUEST,
     USER_LOGOUT_SUCCESS,
-    USER_LOGOUT_FAIL
+    USER_LOGOUT_FAIL,
+    USER_UPDATED_REQUEST,
+    USER_UPDATED_SUCCESS,
+    USER_UPDATED_FAIL
 } from '../constants/userConstant';
 
 
@@ -117,3 +120,29 @@ export const logoutUserReducer = (state = { logout: {} }, action) => {
     }
 };
 
+export const updateUserProfileReducer = (state = { updatedUser: {} }, action) => {
+    switch (action.type) {
+        case USER_UPDATED_REQUEST:
+            return {
+                updatedUserloading: true,
+                updatedUser: {},
+            }
+        case USER_UPDATED_SUCCESS:
+            return {
+                updatedUserloading: false,
+                updatedUser: action.payload,
+            }
+        case USER_UPDATED_FAIL:
+            return {
+                updatedUserloading: false,
+                updatedUserError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                updatedUserError: null
+            }
+        default:
+            return state;
+    }
+}
