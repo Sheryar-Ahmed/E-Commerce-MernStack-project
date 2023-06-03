@@ -2,9 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
+  const pathname = window.location.pathname;
   const d = new Date();
-  return (
-
+  return (!(pathname === '/admin/dashboard') &&
     <footer className="w-full bg-white dark:bg-gray-900 left-0 right-0 bottom-0">
       <div className="w-full p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
