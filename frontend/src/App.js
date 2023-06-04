@@ -13,6 +13,7 @@ import { userDetails } from './actions/userAction';
 import Dashboard from './components/admin/dashboard/Dashboard';
 import MyOrder from './components/MyOrder';
 import ProtectedRoute from './components/routes/ProtectedRoute';
+import Cart from './components/Cart';
 
 function App() {
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
           }
         />
         <Route exact path='/myorders' Component={MyOrder} />
+        <Route exact path='/cart' Component={Cart} />
         <Route exact path='/admin/dashboard' Component={Dashboard} />
       </Routes>
       <Footer />

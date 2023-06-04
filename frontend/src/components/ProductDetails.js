@@ -8,8 +8,8 @@ import Loader from './Loader';
 import ReactStars from 'react-stars';
 import Reviews from './Reviews';
 import Modal from './Modal';
-
 const ProductDetails = () => {
+    
     let [unary, setunary] = React.useState(1);
     const [openRev, setOpenRev] = React.useState(false);
     const [comment, setComment] = React.useState('');
@@ -48,6 +48,35 @@ const ProductDetails = () => {
         dispatch(addProductRev(revData));
     };
 
+    const addToCart = () => {
+        let cartArr;
+        if (localStorage.getItem('cart') === null) {
+            cartArr = [];
+        } else {
+            cartArr = JSON.parse(localStorage.getItem('cart'));
+        };
+        const isItemExist = cartArr.find(id => id.productId === productDetails._id);
+        const cartData = productDetails && {
+            productId: productDetails._id,
+            itemQty: unary,
+            name: productDetails.name,
+            price: productDetails.price,
+            image: productDetails.images[0].url,
+            stock: productDetails.stock,
+        };
+        if (isItemExist) {
+            cartArr.forEach((item, index) => {
+                if (item.productId === productDetails._id) {
+                    cartArr[index] = cartData;
+                }
+            });
+        } else {
+            cartArr.push(cartData);
+        }
+        if (unary > 0) {
+            localStorage.setItem('cart', JSON.stringify(cartArr));
+        };
+    }
     return <React.Fragment>
         {loading
             ? <div className='w-full h-screen relative'><Loader /></div>
@@ -98,7 +127,7 @@ const ProductDetails = () => {
                                         +
                                     </button>
                                 </div>
-                                <button className='rounded-xl w-28 bg-emerald-400 py-1'>Add to Cart</button>
+                                <button onClick={addToCart} className='rounded-xl w-28 bg-emerald-400 py-1'>Add to Cart</button>
                             </div>
                             <hr className='bg-blue-400 w-[300px]' />
                             <span className='text-xl'>
