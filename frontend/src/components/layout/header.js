@@ -9,6 +9,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AddHomeOutlinedIcon from '@mui/icons-material/AddHomeOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import DashboardIcon from '@mui/icons-material/GridViewOutlined';
 import Person3OutlinedIcon from '@mui/icons-material/Person3Outlined';
 import { NavLink } from 'react-router-dom';
 import { logoutUser } from '../../actions/userAction';
@@ -30,7 +31,8 @@ export default function Header() {
         <NavLink to='/login'><LoginOutlinedIcon /></NavLink >, name: user ? 'Logout' : 'Login'
     },
   ];
-  user && actions.push({ icon: <NavLink to='/profile'><Person3OutlinedIcon /></NavLink >, name: 'Profile' },)
+  user && actions.push({ icon: <NavLink to='/profile'><Person3OutlinedIcon /></NavLink >, name: 'Profile' },);
+  user && user.role === 'admin' && actions.push({ icon: <NavLink to='/admin/dashboard'><DashboardIcon /></NavLink >, name: 'Dashboard' },)
   return (
     <SpeedDial
       ariaLabel="SpeedDial openIcon example"
