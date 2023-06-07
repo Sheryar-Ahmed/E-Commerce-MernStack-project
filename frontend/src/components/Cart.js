@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
 import CartProduct from './CartProduct';
+import { removeCartItem } from '../actions/addToCart';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = React.useState([]);
-
-  useEffect(() => {
-
-    setCartItems(JSON.parse(localStorage.getItem('cart')));
-
-  }, [localStorage.getItem('cart')]);
+  const { cartItems } = useSelector((state) => state.cart);
 
   return (
     <div className='w-full flex flex-col items-center justify-center'>
@@ -25,6 +21,7 @@ const Cart = () => {
             <CartProduct
               key={item.productId}
               item={item}
+              deleteCartItem={removeCartItem}
             />)}
           <div className='w-full xl:w-[95%] flex flex-row items-center justify-end'>
             <div className='w-[40%] flex flex-col items-center justify-end'>

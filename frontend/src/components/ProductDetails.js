@@ -51,7 +51,6 @@ const ProductDetails = () => {
     };
 
     const addToCart = () => {
-        console.log(params.id, unary);
         dispatch(addItemsToCart(params.id, unary));
     };
     return <React.Fragment>
