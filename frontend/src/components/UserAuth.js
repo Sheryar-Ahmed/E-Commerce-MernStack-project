@@ -8,9 +8,7 @@ import BackgroundHeader from '../assets/images/login.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin, userRegistration } from '../actions/userAction';
 import Loader from './Loader';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-// import Avatar from '../assets/images/avatar.svg';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -48,6 +46,7 @@ function a11yProps(index) {
 export default function UserAuth() {
 
     const dispatch = useDispatch();
+    const location = useLocation();
     const navigate = useNavigate();
     const [value, setValue] = React.useState(0);
     const [email, setEmail] = React.useState("");
@@ -81,9 +80,9 @@ export default function UserAuth() {
         dispatch(userRegistration(userData, avatar));
     }
     const { isAuthenticated, loading, user, error } = useSelector(state => state.user);
-
+    let userRedirectUrl = location.search ? location.search.split("=")[1] : '/profile';
     React.useEffect(() => {
-        (isAuthenticated && navigate('/profile'));
+        navigate(userRedirectUrl);
     }, [isAuthenticated, navigate])
 
     return (

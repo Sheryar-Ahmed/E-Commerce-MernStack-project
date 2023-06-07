@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CartProduct from './CartProduct';
 import { removeCartItem } from '../actions/addToCart';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping")
+  }
 
   return (
     <div className='w-full flex flex-col items-center justify-center'>
@@ -31,7 +36,7 @@ const Cart = () => {
                 <span>{cartItems.reduce((acc, curr) => acc + curr.quantity * curr.price, 0)}</span>
               </div>
               <div className='w-full flex items-center justify-center'>
-                <button className='bg-emerald-400 py-1 px-3 rounded-sm'>Check Out</button>
+                <button onClick={checkoutHandler} className='bg-emerald-400 py-1 px-3 rounded-sm'>Check Out</button>
               </div>
             </div>
           </div>
