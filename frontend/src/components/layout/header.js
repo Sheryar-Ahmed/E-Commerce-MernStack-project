@@ -17,13 +17,14 @@ import { logoutUser } from '../../actions/userAction';
 export default function Header() {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
   const LogoutUser = () => {
     dispatch(logoutUser());
     window.location.reload(false);
   };
   const actions = [
     { icon: <NavLink to='/'> <AddHomeOutlinedIcon /></NavLink>, name: 'Home' },
-    { icon: <NavLink to='/myorders'><ShoppingCartOutlinedIcon /></NavLink>, name: 'cart' },
+    { icon: <NavLink to='/cart'><ShoppingCartOutlinedIcon /></NavLink>, name: `cart(${cartItems && cartItems.length})` },
     { icon: <NavLink to='/products'><CategoryOutlinedIcon /></NavLink >, name: 'products' },
     {
       icon: user ? <LogoutOutlinedIcon onClick={() => LogoutUser()} />
@@ -46,6 +47,7 @@ export default function Header() {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
+            tooltipOpen={window.innerWidth <= 600 ? true : false}
           />
         ))
       }
