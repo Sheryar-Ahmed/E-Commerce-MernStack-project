@@ -33,7 +33,7 @@ const CartProduct = ({ item, deleteCartItem }) => {
                 <div className='flex flex-col gap-4 sm:gap-0 sm:mt-2'>
                     <span className='sm:text-sm'>{item.name}</span>
                     <span className='sm:text-sm'>Price: PKR {item.price}</span>
-                    <button onClick={() => onRmoveItem(item.productId)} className='border rounded-lg text-white bg-emerald-400 border-emerald-400 sm:text-sm'>remove</button>
+                    {onRmoveItem && <button onClick={() => onRmoveItem(item.productId)} className='border rounded-lg text-white bg-emerald-400 border-emerald-400 sm:text-sm'>remove</button>}
                 </div>
             </div>
             <div className='flex w-[20%] flex-row gap-0'>

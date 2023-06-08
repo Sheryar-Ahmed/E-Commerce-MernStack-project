@@ -15,7 +15,8 @@ import MyOrder from './components/MyOrder';
 import ProtectedRoute from './components/routes/ProtectedRoute';
 import Cart from './components/Cart';
 import Shipping from './components/Shipping';
-
+import ConfirmOrder from './components/ConfirmOrder';
+import Payment from './components/Payment.js';
 
 function App() {
   useEffect(() => {
@@ -38,6 +39,8 @@ function App() {
           }
         />
         <Route exact path='/shipping' Component={Shipping} />
+        <Route exact path='/order/confirm' Component={ConfirmOrder} />
+        <Route exact path='/process/payment' Component={Payment} />
         <Route exact path='/myorders' Component={MyOrder} />
         <Route exact path='/cart' Component={Cart} />
         <Route exact path='/admin/dashboard' Component={Dashboard} />
