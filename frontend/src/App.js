@@ -17,11 +17,24 @@ import Cart from './components/Cart';
 import Shipping from './components/Shipping';
 import ConfirmOrder from './components/ConfirmOrder';
 import Payment from './components/Payment.js';
-
+import axios from 'axios';
+import React from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import SuccessPayment from './components/successPayment.js';
+import OrderDetails from './components/OrderDetails.js';
 function App() {
+  const [stripeKey, setStripeApiKey] = React.useState();
+  const getStripeaApiKey = async () => {
+    const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/stripeApiKey`, config);
+    setStripeApiKey(data.stripeApiKey)
+  }
+
   useEffect(() => {
     store.dispatch(userDetails());
-  }, [])
+    getStripeaApiKey();
+  }, []);
   return (
     <BrowserRouter>
       <Header />
@@ -40,8 +53,19 @@ function App() {
         />
         <Route exact path='/shipping' Component={Shipping} />
         <Route exact path='/order/confirm' Component={ConfirmOrder} />
-        <Route exact path='/process/payment' Component={Payment} />
-        <Route exact path='/myorders' Component={MyOrder} />
+        {stripeKey && <Route
+          path="/process/payment"
+          element={
+            <ProtectedRoute>
+              <Elements stripe={loadStripe(stripeKey)}>
+                <Payment />
+              </Elements>
+            </ProtectedRoute>
+          }
+        />}
+        <Route exact path='/success' Component={SuccessPayment} />
+        <Route exact path='/order/me' Component={MyOrder} />
+        <Route exact path='/order/:id' Component={OrderDetails} />
         <Route exact path='/cart' Component={Cart} />
         <Route exact path='/admin/dashboard' Component={Dashboard} />
       </Routes>

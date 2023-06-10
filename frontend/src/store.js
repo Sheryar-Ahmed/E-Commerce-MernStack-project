@@ -4,6 +4,10 @@ import thunk from 'redux-thunk';
 import { getProductDetailsReducer, productReducer, addProductRevReducer } from './reducers/productReducer';
 import { userReducer, updatePasswordReducer, updateUserProfileReducer } from './reducers/userReducer';
 import { addToCartReducer } from './reducers/cartReducer';
+import {
+    createNewOrderReducer,
+    getMyordersReducers,
+} from './reducers/orderReducer';
 
 const reducer = combineReducers({
     products: productReducer,
@@ -13,6 +17,8 @@ const reducer = combineReducers({
     updatedUser: updateUserProfileReducer,
     productRev: addProductRevReducer,
     cart: addToCartReducer,
+    newOrder: createNewOrderReducer,
+    myOrders: getMyordersReducers,
 });
 //we will set localstorage data 
 let initialState = {

@@ -16,7 +16,7 @@ import { logoutUser } from '../../actions/userAction';
 
 export default function Header() {
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.user);
+  const { isAuthenticated, user } = useSelector(state => state.user);
   const { cartItems } = useSelector((state) => state.cart);
   const LogoutUser = () => {
     dispatch(logoutUser());
@@ -27,13 +27,13 @@ export default function Header() {
     { icon: <NavLink to='/cart'><ShoppingCartOutlinedIcon /></NavLink>, name: `cart(${cartItems && cartItems.length})` },
     { icon: <NavLink to='/products'><CategoryOutlinedIcon /></NavLink >, name: 'products' },
     {
-      icon: user ? <LogoutOutlinedIcon onClick={() => LogoutUser()} />
+      icon: isAuthenticated ? <LogoutOutlinedIcon onClick={() => LogoutUser()} />
         :
-        <NavLink to='/login'><LoginOutlinedIcon /></NavLink >, name: user ? 'Logout' : 'Login'
+        <NavLink to='/login'><LoginOutlinedIcon /></NavLink >, name: isAuthenticated ? 'Logout' : 'Login'
     },
   ];
-  user && actions.push({ icon: <NavLink to='/profile'><Person3OutlinedIcon /></NavLink >, name: 'Profile' },);
-  user && user.role === 'admin' && actions.push({ icon: <NavLink to='/admin/dashboard'><DashboardIcon /></NavLink >, name: 'Dashboard' },)
+  isAuthenticated && actions.push({ icon: <NavLink to='/profile'><Person3OutlinedIcon /></NavLink >, name: 'Profile' },);
+  isAuthenticated && user.role === 'admin' && actions.push({ icon: <NavLink to='/admin/dashboard'><DashboardIcon /></NavLink >, name: 'Dashboard' },)
   return (
     <SpeedDial
       ariaLabel="SpeedDial openIcon example"

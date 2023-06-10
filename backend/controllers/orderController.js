@@ -13,7 +13,7 @@ const createOrder = expressAsyncHandler(async (req, res) => {
         shippingPrice,
         totalPrice
     } = req.body;
-    if (!shippingInfo || !orderItems || !paymentInfo || !itemsPrice || !taxPrice || !shippingPrice || !totalPrice) {
+    if (!shippingInfo) {
         res.status(400);
         throw new Error("Something is missing in request, Try again.");
     }
@@ -41,7 +41,6 @@ const createOrder = expressAsyncHandler(async (req, res) => {
 //Get logged in user all Orders.
 
 const myOrder = expressAsyncHandler(async (req, res) => {
-    //populate will gives us name and email by using only id of the user.
     const orders = await Order.find({ user: req.user._id });
 
     if (!orders) {
@@ -70,6 +69,19 @@ const getAllOrders = expressAsyncHandler(async (req, res) => {
         success: true,
         totalAmount: totalAmount,
         orders: orders,
+    });
+});
+//get order details for user
+const getOrderDetails = expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+        res.status(400);
+        throw new Error(`Order not found with this id: ${req.params.id}`);
+    };
+    res.status(200).json({
+        success: true,
+        order: order,
     });
 });
 //Get Single Order --admin
@@ -148,4 +160,5 @@ module.exports = {
     getAllOrders,
     deleteOrder,
     updateOrder,
+    getOrderDetails,
 }

@@ -48,7 +48,7 @@ const orderSchema = mongoose.Schema({
                 type: String,
                 required: [true, "image is required"]
             },
-            product: {
+            productId: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'products',
                 required: [true, 'Product Id cannot be empty']
