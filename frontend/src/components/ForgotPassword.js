@@ -17,9 +17,8 @@ const ForgotPassword = () => {
     const sendEmailHandler = (e) => {
         e.preventDefault();
         dispatch(forgotPasswordAction(userData));
-        !error && !loading && navigate('/forgot/password/verification');
     };
-    console.log("forgot Pass", forgotPass);
+    forgotPass && !error && !loading && forgotPass.success === true && navigate('/forgot/password/verification');
     return (
         <div className='w-full h-screen bg-gray-100 flex items-center justify-center relative'>
             {loading && <Loader />}
