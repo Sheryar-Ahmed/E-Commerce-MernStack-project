@@ -11,6 +11,7 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import DashboardIcon from '@mui/icons-material/GridViewOutlined';
 import Person3OutlinedIcon from '@mui/icons-material/Person3Outlined';
+import OrderIcon from '@mui/icons-material/AccessibleForwardOutlined';
 import { NavLink } from 'react-router-dom';
 import { logoutUser } from '../../actions/userAction';
 
@@ -33,6 +34,7 @@ export default function Header() {
     },
   ];
   isAuthenticated && actions.push({ icon: <NavLink to='/profile'><Person3OutlinedIcon /></NavLink >, name: 'Profile' },);
+  isAuthenticated && actions.push({ icon: <NavLink to='/order/me'><OrderIcon /></NavLink >, name: 'MY orders' },);
   isAuthenticated && user.role === 'admin' && actions.push({ icon: <NavLink to='/admin/dashboard'><DashboardIcon /></NavLink >, name: 'Dashboard' },)
   return (
     <SpeedDial

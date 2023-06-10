@@ -26,9 +26,13 @@ import OrderDetails from './components/OrderDetails.js';
 function App() {
   const [stripeKey, setStripeApiKey] = React.useState();
   const getStripeaApiKey = async () => {
+    try{
     const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
     const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/stripeApiKey`, config);
-    setStripeApiKey(data.stripeApiKey)
+    setStripeApiKey(data.stripeApiKey);
+  }catch(error){
+    console.log("stripeApiKey", error);
+  }
   }
 
   useEffect(() => {

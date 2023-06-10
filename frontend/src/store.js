@@ -7,6 +7,7 @@ import { addToCartReducer } from './reducers/cartReducer';
 import {
     createNewOrderReducer,
     getMyordersReducers,
+    getOrderDetailsReducer,
 } from './reducers/orderReducer';
 
 const reducer = combineReducers({
@@ -19,6 +20,7 @@ const reducer = combineReducers({
     cart: addToCartReducer,
     newOrder: createNewOrderReducer,
     myOrders: getMyordersReducers,
+    detailOrder: getOrderDetailsReducer,
 });
 //we will set localstorage data 
 let initialState = {

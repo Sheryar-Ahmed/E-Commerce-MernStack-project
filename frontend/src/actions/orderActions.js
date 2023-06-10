@@ -51,7 +51,8 @@ export const getMyOrders = () => async (dispatch) => {
 export const getOrderDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: ORDER_DETAILS_REQUEST });
-        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/order/${id}`);
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/order/${id}`, config);
         dispatch({
             type: ORDER_DETAILS_SUCCESS,
             payload: data.order,
