@@ -17,7 +17,13 @@ import {
     USER_LOGOUT_FAIL,
     USER_UPDATED_REQUEST,
     USER_UPDATED_SUCCESS,
-    USER_UPDATED_FAIL
+    USER_UPDATED_FAIL,
+    USER_FORGOT_pass_REQUEST,
+    USER_FORGOT_pass_SUCCESS,
+    USER_FORGOT_pass_FAIL,
+    USER_RESET_REQUEST,
+    USER_RESET_SUCCESS,
+    USER_RESET_FAIL
 } from '../constants/userConstant';
 import axios from 'axios';
 
@@ -83,7 +89,28 @@ export const updatedPassword = (userPass) => async (dispatch) => {
 
     }
 };
+export const forgotPasswordAction = (email) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_FORGOT_pass_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/password/forgot`, email, config);
+        dispatch({ type: USER_FORGOT_pass_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({ type: USER_FORGOT_pass_FAIL, payload: error.response.data.message })
 
+    }
+};
+export const resetPasswordToken = (token, passData) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_RESET_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/password/reset/${token}`, passData, config);
+        dispatch({ type: USER_RESET_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({ type: USER_RESET_FAIL, payload: error.response.data.message })
+
+    }
+};
 
 export const logoutUser = () => async (dispatch) => {
     try {

@@ -84,7 +84,7 @@ const forgotPassword = expressAsyncHandler(async (req, res) => {
     // our user has already created, we call getResetPasswordToken, it will add resetToken and expires time but will not save untill we do it manually.
     await user.save({ validateBeforeSave: false });
     //resetpasswordUrl
-    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`;
+    const resetPasswordUrl = `${process.env.REACT_APP_BASE_URL}/password/reset/${resetToken}`;
     //message for customers
     const message = `Here is your password Reset Token :- \n\n ${resetPasswordUrl} 
     \n\n\n if you have not requested this email, please ignore it.`;

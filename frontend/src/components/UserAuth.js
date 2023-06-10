@@ -8,7 +8,7 @@ import BackgroundHeader from '../assets/images/login.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin, userRegistration } from '../actions/userAction';
 import Loader from './Loader';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -135,7 +135,7 @@ export default function UserAuth() {
                                         />
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+                                        <NavLink to="/forgot/password" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</NavLink>
                                     </div>
                                     {error && <div className="flex items-center justify-center">
                                         <span className='text-orange'>{error}</span>

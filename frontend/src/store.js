@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk';
 import { getProductDetailsReducer, productReducer, addProductRevReducer } from './reducers/productReducer';
-import { userReducer, updatePasswordReducer, updateUserProfileReducer } from './reducers/userReducer';
+import { userReducer, updatePasswordReducer, updateUserProfileReducer, userForgotPassword, resetPasswordToken } from './reducers/userReducer';
 import { addToCartReducer } from './reducers/cartReducer';
 import {
     createNewOrderReducer,
@@ -21,6 +21,8 @@ const reducer = combineReducers({
     newOrder: createNewOrderReducer,
     myOrders: getMyordersReducers,
     detailOrder: getOrderDetailsReducer,
+    forgotPass: userForgotPassword,
+    resetPass: resetPasswordToken,
 });
 //we will set localstorage data 
 let initialState = {

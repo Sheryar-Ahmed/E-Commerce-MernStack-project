@@ -23,6 +23,10 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import SuccessPayment from './components/successPayment.js';
 import OrderDetails from './components/OrderDetails.js';
+import ForgotPassword from './components/ForgotPassword';
+import EmailSuccess from './components/EmailSuccess';
+import ResetPassword from './components/ResetPassword.js';
+
 function App() {
   const [stripeKey, setStripeApiKey] = React.useState();
   const getStripeaApiKey = async () => {
@@ -47,6 +51,10 @@ function App() {
         <Route exact path='/details/:id' Component={ProductDetails} />
         <Route exact path='/products' Component={Products} />
         <Route exact path='/login' Component={UserAuth} />
+        <Route exact path='/forgot/password' Component={ForgotPassword} />
+        <Route exact path='/forgot/password/verification' Component={EmailSuccess} />
+        <Route exact path='/password/reset/:token' Component={ResetPassword} />
+
         <Route
           path="/profile"
           element={

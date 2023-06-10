@@ -17,7 +17,13 @@ import {
     USER_LOGOUT_FAIL,
     USER_UPDATED_REQUEST,
     USER_UPDATED_SUCCESS,
-    USER_UPDATED_FAIL
+    USER_UPDATED_FAIL,
+    USER_FORGOT_pass_REQUEST,
+    USER_FORGOT_pass_SUCCESS,
+    USER_FORGOT_pass_FAIL,
+    USER_RESET_REQUEST,
+    USER_RESET_SUCCESS,
+    USER_RESET_FAIL
 } from '../constants/userConstant';
 
 
@@ -88,6 +94,58 @@ export const updatePasswordReducer = (state = { updatePass: {} }, action) => {
             return {
                 ...state,
                 errorPass: null
+            }
+        default:
+            return state;
+    }
+};
+export const userForgotPassword = (state = { forgotPass: {} }, action) => {
+    switch (action.type) {
+        case USER_FORGOT_pass_REQUEST:
+            return {
+                loading: true,
+                forgotPass: {}
+            }
+        case USER_FORGOT_pass_SUCCESS:
+            return {
+                loading: false,
+                forgotPass: action.payload,
+            }
+        case USER_FORGOT_pass_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                error: null
+            }
+        default:
+            return state;
+    }
+};
+export const resetPasswordToken = (state = { resetPass: {} }, action) => {
+    switch (action.type) {
+        case USER_RESET_REQUEST:
+            return {
+                loading: true,
+                resetPass: {}
+            }
+        case USER_RESET_SUCCESS:
+            return {
+                loading: false,
+                resetPass: action.payload,
+            }
+        case USER_RESET_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                error: null
             }
         default:
             return state;
