@@ -82,8 +82,10 @@ export default function UserAuth() {
     const { isAuthenticated, loading, user, error } = useSelector(state => state.user);
     let userRedirectUrl = location.search ? location.search.split("=")[1] : '/profile';
     React.useEffect(() => {
-        navigate(userRedirectUrl);
-    }, [isAuthenticated, navigate])
+        if (isAuthenticated) {
+            navigate(userRedirectUrl);
+        }
+    }, [isAuthenticated]);
 
     return (
         <Box
