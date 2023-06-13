@@ -47,15 +47,15 @@ function ResponsiveDrawer(props) {
         setMobileOpen(!mobileOpen);
     };
     const { logout } = useSelector(state => state.logout);
+    const { user, loading } = useSelector(state => state.user);
+
     const logoutHandler = () => {
         dispatch(logoutUser());
     };
 
-    // React.useEffect(() => {
-        if (logout && logout.success === true) {
-            navigate('/login');
-        };
-    // }, []);
+    if (logout && logout.success === true) {
+        navigate('/login');
+    };
     const drawer = (
         <div>
             <Toolbar />
@@ -151,24 +151,27 @@ function ResponsiveDrawer(props) {
                     }}
                     open
                 >
-                    <section class=" bg-[#071e34] flex font-medium items-center justify-center h-screen">
-                        <section class="w-full mx-auto bg-[#20354b] rounded-2xl px-8 py-6 shadow-lg">
-                            <div class="mt-6 w-fit mx-auto">
+                    <section className=" bg-[#071e34] flex font-medium items-center justify-center h-screen">
+                        <section className="w-full mx-auto bg-[#20354b] rounded-2xl px-8 py-6 shadow-lg">
+                            <div className="mt-6 w-fit mx-auto">
                                 <img
-                                    src="https://images.unsplash.com/photo-1623230590824-f39e31a0a608?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFuJTIwYm95fGVufDB8fDB8fHww&w=1000&q=80"
-                                    class="rounded-full w-28 "
-                                    alt="profile"
+                                    src={`data:image/jpeg;base64,${user.avatar.url}`}
+                                    className="rounded-full w-28 "
+                                    alt={user && user.name}
                                 />
                             </div>
 
-                            <div class="mt-8 ">
-                                <h2 class="text-white font-bold text-2xl tracking-wide">Jonathan <br /> Smith</h2>
+                            <div className="mt-8 ">
+                                <h2 className="text-white font-bold text-2xl tracking-wide">
+                                    {loading ? 'loading...' : user.name.substring(0, user.name.indexOf(" "))}
+                                    <br /> {user.name && user.name.substring(user.name.indexOf(" ") + 1)}
+                                </h2>
                             </div>
-                            <p class="text-gray text-sm mt-2.5" >
-                                royalsherya505@gmail.com
+                            <p className="text-gray text-sm mt-2.5" >
+                                {loading ? 'loading...' : user.email}
                             </p>
-                            <p class="text-emerald-400 font-semibold mt-2.5" >
-                                Active
+                            <p className="text-emerald-400 font-semibold mt-2.5" >
+                                {user && 'Active'}
                             </p>
                         </section>
 
