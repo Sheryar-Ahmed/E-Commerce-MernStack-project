@@ -15,7 +15,7 @@ export default function DenseTable({ rows, cell }) {
         <TableHead sx={{ background: 'yellowgreen' }}>
           <TableRow>
             <TableCell>{cell[0]}</TableCell>
-            {cell.map((item, i) => <TableCell align="right">{cell[i + 1]}</TableCell>)}
+            {cell.map((i) => <TableCell key={i} align="right">{cell[i + 1]}</TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>

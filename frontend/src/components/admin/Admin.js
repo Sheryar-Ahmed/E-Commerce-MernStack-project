@@ -70,14 +70,14 @@ const Admin = () => {
         <div className='bg-[white] w-full flex flex-row gap-2 items-center justify-center shadow-[box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px ] py-2 flex-wrap'>
             <NavLink to='/admin/dashboard#allProducts'>
                 <button
-                    class="sm:w-[240px] sm:h-[240px] w-72 h-72 rounded-full bg-[#3f51b5] hover:bg-[#9c27b0] text-white">
+                    className="sm:w-[240px] sm:h-[240px] w-72 h-72 rounded-full bg-[#3f51b5] hover:bg-[#9c27b0] text-white">
                     Product <br />
                     <span className='text-lg'>{productsListLoading ? 'Loading...' : productsList && productsList.length}</span>
                 </button>
             </NavLink>
             <NavLink to='/admin/dashboard#allOrders'>
                 <button
-                    class="sm:w-[240px] sm:h-[240px] w-72 h-72 rounded-full bg-gray hover:bg-[lightgreen] text-white">
+                    className="sm:w-[240px] sm:h-[240px] w-72 h-72 rounded-full bg-gray hover:bg-[lightgreen] text-white">
                     Orders <br />
                     <span className='text-lg'>{ordersListLoading ? 'Loading...' : ordersList && ordersList.length}</span>
                 </button>
@@ -85,7 +85,7 @@ const Admin = () => {
 
             <NavLink to='/admin/dashboard#allUsers'>
                 <button
-                    class="sm:w-[240px] sm:h-[240px] w-72 h-72 rounded-full bg-[#9c27b0] hover:bg-[#3f51b5] text-white">
+                    className="sm:w-[240px] sm:h-[240px] w-72 h-72 rounded-full bg-[#9c27b0] hover:bg-[#3f51b5] text-white">
                     Users <br />
                     <span className='text-lg'>{usersListLoading ? 'Loading...' : usersList && usersList.length}</span>
                 </button>
@@ -93,7 +93,7 @@ const Admin = () => {
         </div>
 
         <div className='w-full bg-[white] my-2 flex flex-row gap-2 items-center justify-center shadow-[box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px ] py-2 flex-wrap'>
-            <div class="sm:w-[280px] sm:h-[280px] w-full h-[400px] flex items-center justify-center bg-[white] text-white">
+            <div className="sm:w-[280px] sm:h-[280px] w-full h-[400px] flex items-center justify-center bg-[white] text-white">
                 <Line
                     data={data}
                     options={{
@@ -111,7 +111,7 @@ const Admin = () => {
             </div>
         </div>
         <div className='w-full bg-[white] flex flex-row gap-2 items-center justify-center shadow-[box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px ] py-2 flex-wrap'>
-            <div class="sm:w-[280px] sm:h-[280px] w-[400px]  h-[400px] flex items-center justify-center bg-[white] text-white">
+            <div className="sm:w-[280px] sm:h-[280px] w-[400px]  h-[400px] flex items-center justify-center bg-[white] text-white">
                 <Pie
                     data={chartData}
                     options={{
