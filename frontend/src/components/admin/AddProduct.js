@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createProductAdminAction } from '../../actions/productAction';
 import ModalBasic from '../Modal';
 import Loader from '../Loader';
+import HelmetProvider from "../SEO/Helmet";
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -105,6 +107,9 @@ const AddProduct = () => {
     return hash === '#Newproduct'
         &&
         <div className="flex flex-col items-center justify-center">
+            <HelmetProvider 
+                title='Dashboard Add New Product'
+            />
             <Typography sx={{ fontSize: '24px' }} component="h2">Add New Product</Typography>
             <form
                 onSubmit={ProductCreation}

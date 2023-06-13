@@ -1,8 +1,13 @@
+import HelmetProvider from './SEO/Helmet';
+
 
 const Pagination = ({ resultPerPage, productsCount, setcurrentPage, currentPage }) => {
     const pageCount = Math.ceil(productsCount / resultPerPage);
     return <>
         <div className='w-full flex flex-row justify-center items-center my-4'>
+            <HelmetProvider 
+                title='Chic Choice Maven'
+            />
             <button
                 onClick={() => setcurrentPage(currentPage - 1)}
                 className='w-16 border rounded-lg border-blue-100 bg-blue-100 hover:bg-blue-200'

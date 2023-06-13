@@ -9,6 +9,7 @@ import ReactStars from 'react-stars';
 import Reviews from './Reviews';
 import Modal from './Modal';
 import { addItemsToCart } from '../actions/addToCart';
+import HelmetProvider from './SEO/Helmet';
 
 const ProductDetails = () => {
 
@@ -57,6 +58,10 @@ const ProductDetails = () => {
         {loading
             ? <div className='w-full h-screen relative'><Loader /></div>
             : <div>
+                <HelmetProvider
+                    title={productDetails && productDetails.name+" "+ productDetails.description}
+                    description={productDetails && productDetails.description}
+                />
                 <div className='w-full py-16 flex flex-row justify-center items-center flex-wrap gap-0 bg-blue-50'>
                     <div className='sm:px-2 md:px-2 lg:px-7 border border-blue self-stretch flex flex-col items-center justify-center'>
                         <Carousel
@@ -103,9 +108,9 @@ const ProductDetails = () => {
                                         +
                                     </button>
                                 </div>
-                                <button 
-                                disabled={productDetails.stock > 0 ? false : true}
-                                onClick={addToCart} className='rounded-xl w-28 bg-emerald-400 py-1'>Add to Cart</button>
+                                <button
+                                    disabled={productDetails.stock > 0 ? false : true}
+                                    onClick={addToCart} className='rounded-xl w-28 bg-emerald-400 py-1'>Add to Cart</button>
                             </div>
                             <hr className='bg-blue-400 w-[300px]' />
                             <span className='text-xl'>
@@ -119,50 +124,50 @@ const ProductDetails = () => {
                             <button onClick={handleOpenRev} className='rounded-xl w-32 bg-emerald-400 p-1'>Submit Review</button>
                         </div>
                     }
-            </div>
+                </div>
                 {<Modal open={openRev} setOpen={setOpenRev}>
-            {isAuthenticated
-                ?
-                <form
-                    onSubmit={addReview}
-                    className='w-full flex flex-col gap-2 relative'>
-                    {loadingRev && <Loader />}
-                    {errorRev && <span className='w-full text-center text-[red]'>{errorRev}</span>}
-                    {productRev && <span className='w-full text-center text-emerald-400'>{productRev.message}</span>}
-                    <div className='w-full flex items-center justify-center'>
-                        <ReactStars
-                            edit={true}
-                            color="rgba(20,20,20,0.1)"
-                            value={rating}
-                            count={5}
-                            onChange={ratingHandler}
-                            size={24}
-                            color2='#ffd700'
-                            half={true}
-                        />
+                    {isAuthenticated
+                        ?
+                        <form
+                            onSubmit={addReview}
+                            className='w-full flex flex-col gap-2 relative'>
+                            {loadingRev && <Loader />}
+                            {errorRev && <span className='w-full text-center text-[red]'>{errorRev}</span>}
+                            {productRev && <span className='w-full text-center text-emerald-400'>{productRev.message}</span>}
+                            <div className='w-full flex items-center justify-center'>
+                                <ReactStars
+                                    edit={true}
+                                    color="rgba(20,20,20,0.1)"
+                                    value={rating}
+                                    count={5}
+                                    onChange={ratingHandler}
+                                    size={24}
+                                    color2='#ffd700'
+                                    half={true}
+                                />
+                            </div>
+                            <div>
+                                <textarea value={comment} minrows={4} onChange={(e) => setComment(e.target.value)} type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Product Review' required />
+                            </div>
+                            <button type="submit" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Submit</button>
+                        </form>
+                        :
+                        <span className='w-full text-center p-3'>You need to Login to Add Review</span>}
+                </Modal>}
+                {/* Reviews */}
+                <div className='w-full flex flex-row items-center justify-start sm:justify-center flex-wrap bg-blue-50'>
+                    <div className='w-full flex flex-col items-center justify-center'>
+                        <h1 className='w-full text-center text-3xl mb-2'>Reviews</h1>
+                        <hr className='bg-blue-400 w-[300px]' />
                     </div>
-                    <div>
-                        <textarea value={comment} minrows={4} onChange={(e) => setComment(e.target.value)} type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Product Review' required />
+                    <div className='w-full flex flex-row flex-wrap items-center justify-center py-4 gap-4'>
+                        {productDetails && productDetails.reviews.length > 0 ? productDetails.reviews
+                            .map((review) => <Reviews key={review._id} review={review} />
+                            ) : <span className='text-2xl w-[300px] border border-blue-100 text-center bg-blue-100'>No reviews Yet</span>}
                     </div>
-                    <button type="submit" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Submit</button>
-                </form>
-                :
-                <span className='w-full text-center p-3'>You need to Login to Add Review</span>}
-        </Modal>}
-        {/* Reviews */}
-        <div className='w-full flex flex-row items-center justify-start sm:justify-center flex-wrap bg-blue-50'>
-            <div className='w-full flex flex-col items-center justify-center'>
-                <h1 className='w-full text-center text-3xl mb-2'>Reviews</h1>
-                <hr className='bg-blue-400 w-[300px]' />
+                </div>
             </div>
-            <div className='w-full flex flex-row flex-wrap items-center justify-center py-4 gap-4'>
-                {productDetails && productDetails.reviews.length > 0 ? productDetails.reviews
-                    .map((review) => <Reviews key={review._id} review={review} />
-                    ) : <span className='text-2xl w-[300px] border border-blue-100 text-center bg-blue-100'>No reviews Yet</span>}
-            </div>
-        </div>
-    </div>
-}
+        }
     </React.Fragment >
 }
 

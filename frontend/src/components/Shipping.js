@@ -4,6 +4,7 @@ import { Country, State, City } from 'country-state-city';
 import { saveShippingInfo } from '../actions/addToCart';
 import { useNavigate } from 'react-router-dom';
 import StepperPay from './Stepper';
+import HelmetProvider from './SEO/Helmet';
 
 const Shipping = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,10 @@ const Shipping = () => {
   return (
     <div className='w-full flex flex-col gap-3 items-center h-screen pt-5'>
       <StepperPay activeStep={0} />
+      <HelmetProvider
+        title='Chic Choice Shipping Details'
+        description={city+state+country+pinCode}
+      />
       <div className='w-full flex flex-col items-center justify-center h-[80vh]'>
         <h1 className='w-full text-center text-2xl mb-3'>Shipping Details</h1>
         <form onSubmit={shippingInfoHandler} className="flex flex-col items-center w-96 gap-5 sm:w-full sm:px-2">

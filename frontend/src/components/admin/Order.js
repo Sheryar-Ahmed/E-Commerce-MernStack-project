@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../Loader';
 import ModalBasic from '../Modal';
 import { getOrdersListAdmin, removeOrderAdminAction, updateOrderStatusAction } from '../../actions/orderActions';
+import HelmetProvider from '../SEO/Helmet';
 
 const Orders = () => {
 
@@ -66,10 +67,13 @@ const Orders = () => {
 
     return hash === '#allOrders' && <React.Fragment>
         <div className="sm:w-[300px] w-[100%] flex flex-col gap-2">
+            <HelmetProvider
+                title={`Dashboard (Order(${ordersList && ordersList.length}))`}
+            />
             <div className='w-full flex flex-row items-center justify-between'>
                 <span className='text-xl text-gray'>ALL Products</span>
                 <span onClick={() => getOrders()} className='cursor-pointer text-xl text-gray'>Refresh</span>
-            </div>            
+            </div>
             {ordersListLoading || orderRemLoading
                 ?
                 <div className='w-full h-screen relative'>

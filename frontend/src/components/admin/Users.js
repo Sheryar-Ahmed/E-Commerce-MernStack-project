@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../Loader';
 import ModalBasic from '../Modal';
 import { getUsersListAdmin, removeUserAdminAction, updateUserRoleAdminAction } from '../../actions/userAction';
-
+import HelmetProvider from '../SEO/Helmet';
 
 const Users = () => {
     const dispatch = useDispatch();
@@ -65,6 +65,9 @@ const Users = () => {
 
     return hash === '#allUsers' && <React.Fragment>
         <div className='sm:w-[280px] w-[100%] flex flex-col gap-2'>
+        <HelmetProvider
+                title={`Dashboard (All Users(${usersList && usersList.length}))`}
+            />
         <div className='w-full flex flex-row items-center justify-between'>
                 <span className='text-xl text-gray'>ALL Products</span>
                 <span onClick={() => getUsers()} className='text-xl text-gray cursor-pointer'>Refresh</span>

@@ -8,7 +8,7 @@ import { getProductsListAdmin } from '../../actions/productAction';
 import { getOrdersListAdmin } from '../../actions/orderActions';
 import { getUsersListAdmin } from '../../actions/userAction';
 import Paper from '@mui/material/Paper';
-
+import HelmetProvider from '../SEO/Helmet';
 
 const Admin = () => {
 
@@ -70,6 +70,9 @@ const Admin = () => {
 
     return (pathname === '/admin/dashboard' && !hash) && <React.Fragment>
         <div className='bg-[white] w-full flex flex-row gap-2 items-center justify-center shadow-[box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px ] py-2 flex-wrap'>
+        <HelmetProvider
+                title={`Dashboard (Admin)`}
+            />
             <NavLink to='/admin/dashboard#allProducts'>
                 <button
                     className="sm:w-[240px] sm:h-[240px] w-72 h-72 rounded-full bg-[#3f51b5] hover:bg-[#9c27b0] text-white">
@@ -131,7 +134,7 @@ const Admin = () => {
             <div className='sm:text-sm sm:py-3 text-center p-3 mt-2' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                 &copy; {new Date().getFullYear()} Copyright:{' '}
                 <NavLink className='text-dark' to='/'>
-                    Ecommerece
+                    Chic Choice Maven
                 </NavLink>
             </div>
         </Paper>

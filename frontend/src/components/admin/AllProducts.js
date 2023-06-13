@@ -16,7 +16,7 @@ import Select from '@mui/material/Select';
 import IconButton from '@mui/material/IconButton';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Button } from "@mui/material";
-
+import HelmetProvider from './../SEO/Helmet';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -126,6 +126,9 @@ const AllProducts = () => {
 
     return hash === '#allProducts' && <React.Fragment>
         <div className='sm:w-[280px] w-[100%] flex flex-col gap-2'>
+            <HelmetProvider
+                title={`Dashboard (All Products(${productsList && productsList.length}))`}
+            />
             <div className='w-full flex flex-row items-center justify-between'>
                 <span className='text-xl text-gray'>ALL Products</span>
                 <span onClick={() => getProducts()} className='text-xl text-gray cursor-pointer'>Refresh</span>

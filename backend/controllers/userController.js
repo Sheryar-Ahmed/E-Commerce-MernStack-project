@@ -93,7 +93,7 @@ const forgotPassword = expressAsyncHandler(async (req, res) => {
         //send Email function with an object object
         await sendEmail({
             email: user.email,
-            subject: 'Ecommerce Password Recovery.',
+            subject: 'Chic Choice Maven Password Recovery.',
             message,
         });
         res.status(200).json({

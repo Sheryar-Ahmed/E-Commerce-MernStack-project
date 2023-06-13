@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { forgotPasswordAction } from '../actions/userAction';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
-
+import HelmetProvider from './SEO/Helmet';
 const ForgotPassword = () => {
     const { loading, error, forgotPass } = useSelector(state => state.forgotPass);
 
@@ -21,6 +21,9 @@ const ForgotPassword = () => {
     forgotPass && !error && !loading && forgotPass.success === true && navigate('/forgot/password/verification');
     return (
         <div className='w-full h-screen bg-gray-100 flex items-center justify-center relative'>
+                  <HelmetProvider
+                title='Password Recovery'
+            />
             {loading && <Loader />}
             <div className='sm:w-72 w-96 shadow-lg rounded-lg p-12 flex flex-col items-center justiy-center gap-5 bg-white'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="blue" className="w-16 h-16">

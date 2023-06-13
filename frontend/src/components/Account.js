@@ -4,6 +4,10 @@ import Loader from './Loader';
 import { NavLink } from 'react-router-dom';
 import Modal from './Modal';
 import { updatedPassword, updatedProfile, userDetails } from '../actions/userAction';
+import HelmetProvider from './SEO/Helmet';
+
+
+
 const Account = () => {
 
     const dispatch = useDispatch();
@@ -47,6 +51,10 @@ const Account = () => {
         <div className='w-full mt-5'>
             <span className='ml-5 w-full text-3xl text-start'>My Profile</span>
         </div>
+        <HelmetProvider
+            title={user ? `Profile ${user.name}` : 'Profile Page'}
+            description={user && user.name + user.email}
+        />
         <div className='w-full flex flex-row flex-wrap items-center justify-center gap-20 sm:gap-8 relative'>
             {loading && <div className='w-full h-screen relative'><Loader /></div>}
             <div className='flex flex-col items-center justify-center gap-5'>
@@ -88,7 +96,7 @@ const Account = () => {
                     <span>Joined On</span>
                     <span className='text-sm text-gray'>{user.createdAt.slice(0, 10)}</span>
                 </div>
-                <NavLink to='/myorders'>
+                <NavLink to='/order/me'>
                     <button className='w-72 border border-emerald-400 text-white bg-gray py-1'>My orders</button>
                 </NavLink>
                 <button

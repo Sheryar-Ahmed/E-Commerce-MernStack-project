@@ -34,7 +34,7 @@ import Users from '../Users';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../../actions/userAction';
 import { useNavigate } from 'react-router-dom';
-
+import HelmetProvider from '../../SEO/Helmet';
 
 const drawerWidth = 240;
 
@@ -56,7 +56,7 @@ function ResponsiveDrawer(props) {
     if (!loadingPass && logout && logout.success === true) {
         navigate('/login');
     };
-    
+
     const drawer = (
         <div>
             <Toolbar />
@@ -95,6 +95,9 @@ function ResponsiveDrawer(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
     return (
         <Box sx={{ display: 'flex' }}>
+            <HelmetProvider
+                title='Dashboard'
+            />
             <CssBaseline />
             <AppBar
                 position="fixed"

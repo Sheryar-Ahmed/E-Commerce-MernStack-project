@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Stepper from './Stepper';
 import { createNewOrder } from '../actions/orderActions';
+import HelmetProvider from './SEO/Helmet';
 
 const Payment = () => {
     const orderInfo = JSON.parse(sessionStorage.getItem('orderInfo'));
@@ -110,6 +111,9 @@ const Payment = () => {
     return (
         <div className='w-full flex flex-col items-center h-screen pt-5'>
             <Stepper activeStep={2} />
+            <HelmetProvider
+                title='Payment GateWay Chic Choice Maven'
+            />
             <div className='w-full flex items-center justify-center flex-col h-[80vh]'>
                 <form onSubmit={(e) => submitHandler(e)} className='w-72 flex flex-col items-center justify-center gap-8'>
                     <span className='text-2xl font-bold'>Card Info</span>

@@ -7,7 +7,7 @@ const processPayment = expressAsyncHandler(async (req, res) => {
         amount: req.body.amount,
         currency: "pkr",
         metadata: {
-            company: "Ecommerce",
+            company: "Chic Choice Maven",
         },
     });
     res.status(200).json({

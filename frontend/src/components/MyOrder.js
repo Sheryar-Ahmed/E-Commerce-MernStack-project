@@ -7,6 +7,7 @@ import { getMyOrders } from '../actions/orderActions';
 import Loader from './Loader';
 import { NavLink } from 'react-router-dom';
 import NoOrderIcon from '@mui/icons-material/DirectionsCarFilledRounded';
+import HelmetProvider from './SEO/Helmet';
 
 const MyOrder = () => {
 
@@ -26,6 +27,9 @@ const MyOrder = () => {
   return (
     <div className='mt-5 w-full flex flex-col items-center justify-center gap-4'>
       <span className='w-full text-3xl text-center text-emerald-400'>My Orders</span>
+      <HelmetProvider
+        title={`My Orders(${myOrders && myOrders.length})`}
+      />
       <div className='w-full shadow-lg border'>
         {loading
           ?
@@ -35,8 +39,8 @@ const MyOrder = () => {
           :
           <Table rows={rows} cell={cell} />}
       </div>
-      {myOrders.length < 1 && <div className='w-full flex flex-col items-center justify-center'>
-        <NoOrderIcon sx={{ fontSize: '8rem', color:'orangeRed' }} />
+      {!loading && myOrders.length < 1 && <div className='w-full flex flex-col items-center justify-center'>
+        <NoOrderIcon sx={{ fontSize: '8rem', color: 'orangeRed' }} />
 
         <span className='w-full text-center text-2xl'>{"You have not placed Any Order Yet"}</span>
       </div>

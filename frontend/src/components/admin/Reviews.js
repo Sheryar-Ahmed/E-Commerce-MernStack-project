@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProductReviewAdminAction, getProductReviewAdminAction } from '../../actions/productAction';
 import Loader from '../Loader';
 import ModalBasic from '../Modal';
-
+import HelmetProvider from '../SEO/Helmet';
 
 const Reviews = () => {
     const [search, setSearch] = React.useState("");
@@ -45,6 +45,9 @@ const Reviews = () => {
     const hash = window.location.hash;
     return hash === '#reviewProduct' && <React.Fragment>
         <div className='w-full flex flex-col items-center justify-center bg-[white]'>
+            <HelmetProvider
+                title={`Dashboard (Reviews(${productReviewList && productReviewList.length}))`}
+            />
             <form onSubmit={getReviews}>
                 <h1 className='w-full text-center text-xl'>Search Review</h1>
                 <Input

@@ -4,7 +4,7 @@ import { resetPasswordToken } from '../actions/userAction';
 import { useParams, NavLink } from 'react-router-dom';
 import Loader from './Loader';
 import ModalBasic from './Modal';
-
+import HelmetProvider from './SEO/Helmet';
 
 const ResetPassword = () => {
 
@@ -31,6 +31,9 @@ const ResetPassword = () => {
 
   return (
     <div className='w-full flex bg-gray-100 items-center justify-center h-screen'>
+            <HelmetProvider
+                title={`Reset Password `}
+            />
       <form onSubmit={submitResetPassHandler} className='w-96 sm:w-80 flex border border-[#dddddd] flex-col items-center justify-center p-8 shadow-xl rounded-lg gap-8 relative'>
         {loading && <Loader />}
         {error && <span className='w-full text-center text-red'>{error}</span>}

@@ -1,11 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {NavLink} from 'react-router-dom';
+import HelmetProvider from './SEO/Helmet';
+
 const EmailSuccess = () => {
 
   const { forgotPass } = useSelector(state => state.forgotPass)
   return (
     <div className='w-full h-screen flex flex-col items-center justify-center gap-5 bg-gray-100'>
+            <HelmetProvider
+                title={`Email Sent Successfully`}
+            />
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="green" className="w-32 h-32">
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>

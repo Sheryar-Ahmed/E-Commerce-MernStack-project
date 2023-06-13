@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import CartProduct from './CartProduct';
 import { removeCartItem } from '../actions/addToCart';
 import { useSelector } from 'react-redux';
+import HelmetProvider from './SEO/Helmet';
+
 
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -14,6 +16,9 @@ const Cart = () => {
   return (
     <div className='w-full flex flex-col items-center justify-center'>
       <h1 className='w-full text-center text-xl mt-2'>My Cart</h1>
+      <HelmetProvider
+        title='Chic Choice Shopping Cart'
+      />
       <div className='w-full xl:w-[95%] mt-3 bg-emerald-500 text-white flex flex-row border border-emerald-400 p-2 gap-4 items-center justify-between'>
         <h2 className='text-bold w-[60%]'>Product</h2>
         <h2 className='text-bold w-[20%]'>ItemQty</h2>

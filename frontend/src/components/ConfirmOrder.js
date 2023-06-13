@@ -1,7 +1,10 @@
 import React from 'react';
 import CustromizedStepper from './Stepper';
 import { useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom';
+import HelmetProvider from './SEO/Helmet';
+
+
 const ConfirmOrder = () => {
     const navigate = useNavigate();
     const { cartItems, shippingInfo } = useSelector(state => state.cart);
@@ -29,6 +32,9 @@ const ConfirmOrder = () => {
     return (
         <div className='w-full flex flex-col gap-5 mt-3'>
             <CustromizedStepper activeStep={1} />
+            <HelmetProvider
+                title='Order Confirmation'
+            />
             <div className='w-full flex flex-row flex-wrap justify-center gap-3 border border-[red] py-5 items-center'>
                 <div className='w-2/3 flex flex-col gap-5'>
                     <div className='w-full flex flex-col gap-5'>

@@ -3,6 +3,8 @@ import { getOrderDetails } from '../actions/orderActions';
 import { useParams, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from './Loader';
+import HelmetProvider from './SEO/Helmet';
+
 const OrderDetails = () => {
     const params = useParams();
     const dispatch = useDispatch();
@@ -22,6 +24,10 @@ const OrderDetails = () => {
             ? <span className='w-full h-screen text-center text-2xl text-red'>'No data yet'</span>
             : (detailOrder &&
                 <div className='w-full flex flex-col gap-5 mt-3'>
+                    <HelmetProvider
+                        title={(detailOrder && detailOrder.name) || ('Chic Choice Maven')}
+                        description={address}
+                    />
                     <div className='w-full flex flex-row flex-wrap justify-center gap-3 py-5 items-center'>
                         <div className='w-2/3 flex flex-col gap-5'>
                             <div className='w-full flex flex-col gap-5'>
