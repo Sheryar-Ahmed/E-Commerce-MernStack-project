@@ -94,6 +94,7 @@ const Payment = () => {
                         status: result.paymentIntent.status
                     };
                     dispatch(createNewOrder(orderData));
+                    localStorage.removeItem('cartItems');
                     navigate("/success");
                 } else {
                     console.log("There's some issue while processing payment ");
