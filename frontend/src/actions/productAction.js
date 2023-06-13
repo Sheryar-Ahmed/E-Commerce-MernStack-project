@@ -15,7 +15,13 @@ import {
     PRODUCTS_LIST_ADMIN_FAIL,
     REMOVE_PRODUCT_ADMIN_SUCCESS,
     REMOVE_PRODUCT_ADMIN_REQUEST,
-    REMOVE_PRODUCT_ADMIN_FAIL
+    REMOVE_PRODUCT_ADMIN_FAIL,
+    PRODUCT_REVIEW_ADMIN_REQUEST,
+    PRODUCT_REVIEW_ADMIN_SUCCESS,
+    PRODUCT_REVIEW_ADMIN_FAIL,
+    PRODUCT_DELETE_REVIEW_ADMIN_REQUEST,
+    PRODUCT_DELETE_REVIEW_ADMIN_SUCCESS,
+    PRODUCT_DELETE_REVIEW_ADMIN_FAIL
 } from '../constants/productConstant';
 
 
@@ -101,8 +107,33 @@ export const removeProductAdminAction = (id) => async (dispatch) => {
         })
     }
 };
+// get product review admin 
+export const getProductReviewAdminAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: PRODUCT_REVIEW_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/review?id=${id}`, config);
+        dispatch({ type: PRODUCT_REVIEW_ADMIN_SUCCESS, payload: data.reviews })
+    } catch (error) {
+        dispatch({ type: PRODUCT_REVIEW_ADMIN_FAIL, payload: error.response.data.message })
 
+    }
+};
+// get product review admin 
+export const deleteProductReviewAdminAction = (productId, reviewId) => async (dispatch) => {
+    try {
+        dispatch({ type: PRODUCT_DELETE_REVIEW_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/review?id=${reviewId}&productId=${productId}`, config);
+        dispatch({
+            type: PRODUCT_DELETE_REVIEW_ADMIN_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({ type: PRODUCT_DELETE_REVIEW_ADMIN_FAIL, payload: error.response.data.message })
 
+    }
+};
 export const clearError = async (dispatch) => {
     dispatch({
         type: CLEAR_ERROR,

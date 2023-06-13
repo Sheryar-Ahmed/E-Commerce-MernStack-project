@@ -14,7 +14,13 @@ import {
     PRODUCTS_LIST_ADMIN_FAIL,
     REMOVE_PRODUCT_ADMIN_REQUEST,
     REMOVE_PRODUCT_ADMIN_SUCCESS,
-    REMOVE_PRODUCT_ADMIN_FAIL
+    REMOVE_PRODUCT_ADMIN_FAIL,
+    PRODUCT_REVIEW_ADMIN_REQUEST,
+    PRODUCT_REVIEW_ADMIN_SUCCESS,
+    PRODUCT_REVIEW_ADMIN_FAIL,
+    PRODUCT_DELETE_REVIEW_ADMIN_REQUEST,
+    PRODUCT_DELETE_REVIEW_ADMIN_SUCCESS,
+    PRODUCT_DELETE_REVIEW_ADMIN_FAIL
 } from '../constants/productConstant';
 
 export const productReducer = (state = { products: [] }, action) => {
@@ -133,7 +139,6 @@ export const getRemoveProductReducer = (state = { productRem: {} }, action) => {
 };
 
 //get all products list for admin
-
 export const getProductsListReducer = (state = { productsList: [] }, action) => {
     switch (action.type) {
         case PRODUCTS_LIST_ADMIN_REQUEST:
@@ -157,6 +162,62 @@ export const getProductsListReducer = (state = { productsList: [] }, action) => 
             return {
                 ...state,
                 productsListError: null
+            }
+        default:
+            return state;
+    }
+};
+
+//get review of the product for admin
+export const getProductReviewAdminReducer = (state = { productReviewList: [] }, action) => {
+    switch (action.type) {
+        case PRODUCT_REVIEW_ADMIN_REQUEST:
+            return {
+                productReviewListLoading: true,
+                productReviewList: [],
+            }
+        case PRODUCT_REVIEW_ADMIN_SUCCESS:
+            return {
+                productReviewListLoading: false,
+                productReviewList: action.payload
+            }
+        case PRODUCT_REVIEW_ADMIN_FAIL:
+            return {
+                productReviewListLoading: false,
+                productReviewListError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                productReviewListError: null
+            }
+        default:
+            return state;
+    }
+};
+
+//delete review of the product for admin
+export const deleteProductReviewAdminReducer = (state = { DelProductReview: {} }, action) => {
+    switch (action.type) {
+        case PRODUCT_DELETE_REVIEW_ADMIN_REQUEST:
+            return {
+                DelProductReviewLoading: true,
+                DelProductReview: {},
+            }
+        case PRODUCT_DELETE_REVIEW_ADMIN_SUCCESS:
+            return {
+                DelProductReviewLoading: false,
+                DelProductReview: action.payload
+            }
+        case PRODUCT_DELETE_REVIEW_ADMIN_FAIL:
+            return {
+                DelProductReviewLoading: false,
+                DelProductReviewError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                DelProductReviewError: null
             }
         default:
             return state;
