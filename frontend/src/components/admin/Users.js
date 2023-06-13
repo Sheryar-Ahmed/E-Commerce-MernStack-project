@@ -6,7 +6,7 @@ import EditProduct from '@mui/icons-material/EditOutlined';
 import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../Loader';
 import ModalBasic from '../Modal';
-import { removeUserAdminAction, updateUserRoleAdminAction } from '../../actions/userAction';
+import { getUsersListAdmin, removeUserAdminAction, updateUserRoleAdminAction } from '../../actions/userAction';
 
 
 const Users = () => {
@@ -57,13 +57,18 @@ const Users = () => {
     React.useEffect(() => {
         userRem && userRem.success === true && handleOpen();
     }, [userRem]);
-
+    //get UpdatedUsers List
+    const getUsers = () => {
+        dispatch(getUsersListAdmin());
+    };
     const hash = window.location.hash;
 
     return hash === '#allUsers' && <React.Fragment>
         <div className='sm:w-[280px] w-[100%] flex flex-col gap-2'>
-            <span className='text-xl text-gray'>ALL Users</span>
-            {usersListLoading || userRemLoading
+        <div className='w-full flex flex-row items-center justify-between'>
+                <span className='text-xl text-gray'>ALL Products</span>
+                <span onClick={() => getUsers()} className='text-xl text-gray cursor-pointer'>Refresh</span>
+            </div>            {usersListLoading || userRemLoading
                 ?
                 <div className='w-full h-screen relative'>
                     <Loader />

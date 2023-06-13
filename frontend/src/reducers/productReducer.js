@@ -20,7 +20,13 @@ import {
     PRODUCT_REVIEW_ADMIN_FAIL,
     PRODUCT_DELETE_REVIEW_ADMIN_REQUEST,
     PRODUCT_DELETE_REVIEW_ADMIN_SUCCESS,
-    PRODUCT_DELETE_REVIEW_ADMIN_FAIL
+    PRODUCT_DELETE_REVIEW_ADMIN_FAIL,
+    CREATE_NEW_PRODUCT_ADMIN_REQUEST,
+    CREATE_NEW_PRODUCT_ADMIN_SUCCESS,
+    CREATE_NEW_PRODUCT_ADMIN_FAIL,
+    UPDATE_PRODUCT_ADMIN_REQUEST,
+    UPDATE_PRODUCT_ADMIN_SUCCESS,
+    UPDATE_PRODUCT_ADMIN_FAIL
 } from '../constants/productConstant';
 
 export const productReducer = (state = { products: [] }, action) => {
@@ -218,6 +224,64 @@ export const deleteProductReviewAdminReducer = (state = { DelProductReview: {} }
             return {
                 ...state,
                 DelProductReviewError: null
+            }
+        default:
+            return state;
+    }
+};
+
+
+
+//create new product Admin
+export const createProductAdminReducer = (state = { createProduct: {} }, action) => {
+    switch (action.type) {
+        case CREATE_NEW_PRODUCT_ADMIN_REQUEST:
+            return {
+                createProductLoading: true,
+                createProduct: {},
+            }
+        case CREATE_NEW_PRODUCT_ADMIN_SUCCESS:
+            return {
+                createProductLoading: false,
+                createProduct: action.payload
+            }
+        case CREATE_NEW_PRODUCT_ADMIN_FAIL:
+            return {
+                createProductLoading: false,
+                createProductError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                createProductError: null
+            }
+        default:
+            return state;
+    }
+};
+
+//update product Admin
+export const updateProductAdminReducer = (state = { updateProduct: {} }, action) => {
+    switch (action.type) {
+        case UPDATE_PRODUCT_ADMIN_REQUEST:
+            return {
+                updateProductLoading: true,
+                updateProduct: {},
+            }
+        case UPDATE_PRODUCT_ADMIN_SUCCESS:
+            return {
+                updateProductLoading: false,
+                updateProduct: action.payload
+            }
+        case UPDATE_PRODUCT_ADMIN_FAIL:
+            return {
+                updateProductLoading: false,
+                updateProductError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                updateProductError: null
             }
         default:
             return state;

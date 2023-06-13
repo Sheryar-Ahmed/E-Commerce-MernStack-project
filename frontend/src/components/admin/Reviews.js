@@ -37,6 +37,11 @@ const Reviews = () => {
     React.useEffect(() => {
         DelProductReview && DelProductReview.success === true && handleOpen();
     }, [DelProductReview]);
+
+    //get updatedreviews after deletion of the products
+    const getUpdatedReviews = (id) => {
+        id && dispatch(getProductReviewAdminAction(id));
+    };
     const hash = window.location.hash;
     return hash === '#reviewProduct' && <React.Fragment>
         <div className='w-full flex flex-col items-center justify-center bg-[white]'>
@@ -58,7 +63,10 @@ const Reviews = () => {
             </form>
         </div>
         <div className='sm:w-[280px] w-[100%] flex flex-col gap-2'>
-            <span className='text-xl text-gray'>ALL Reviews</span>
+            <div className='w-full flex flex-row items-center justify-between'>
+                <span className='text-xl text-gray'>ALL Products</span>
+                <span onClick={() => getUpdatedReviews(search)} className='text-xl text-gray cursor-pointer'>Refresh</span>
+            </div>
             {productReviewListLoading || DelProductReviewLoading
                 ?
                 <div className='w-full h-screen relative'>

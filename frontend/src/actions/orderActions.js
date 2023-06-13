@@ -112,6 +112,7 @@ export const updateOrderStatusAction = (id, orderStatusData) => async (dispatch)
         dispatch({ type: UPDATE_ORDERSTATUS_ROLE_ADMIN_REQUEST });
         const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
         const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/order/${id}`, orderStatusData, config);
+        console.log('data', data);
         dispatch({ type: UPDATE_ORDERSTATUS_ROLE_ADMIN_SUCCESS, payload: data })
     } catch (error) {
         dispatch({ type: UPDATE_ORDERSTATUS_ROLE_ADMIN_FAIL, payload: error.response.data.message })

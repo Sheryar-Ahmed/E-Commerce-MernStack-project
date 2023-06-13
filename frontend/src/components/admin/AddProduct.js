@@ -9,6 +9,10 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Button, Typography } from "@mui/material";
+import { useDispatch, useSelector } from 'react-redux';
+import { createProductAdminAction } from '../../actions/productAction';
+import ModalBasic from '../Modal';
+import Loader from '../Loader';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,31 +38,56 @@ const names = [
 ];
 
 const AddProduct = () => {
-
+    const dispatch = useDispatch();
     const [personName, setPersonName] = React.useState([]);
     const [selectImage, setSelectImage] = React.useState([]);
+    const [name, setProductName] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const [price, setPrice] = React.useState("");
+    const [stock, setStock] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
 
     const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setPersonName(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
+        setPersonName(event.target.value)
     };
     //images upload
     const fileSelection = (event) => {
         const onSelectedFiles = event.target.files;
         const selectedFilesArray = Array.from(onSelectedFiles);
         //get url 
-        const selectedImagesUrl = selectedFilesArray.map((phot) => URL.createObjectURL(phot));
+        const selectedImagesUrl = selectedFilesArray.map((phot, i) => {
+            return {
+                public_id: i,
+                url: URL.createObjectURL(phot)
+            }
+        });
+        console.log(selectedImagesUrl);
         setSelectImage((prev) => prev.concat(selectedImagesUrl));
     };
+    const newProductdata = {
+        name,
+        description,
+        price,
+        category: personName,
+        images: selectImage,
+        stock,
+    }
+
+
     //product Creation 
     const ProductCreation = (e) => {
         e.preventDefault();
+        dispatch(createProductAdminAction(newProductdata));
     };
+
+
+    const { createProduct, createProductLoading, createProductError } = useSelector(state => state.createProduct);
+
+    const handleOpen = () => setOpen(true);
+    React.useEffect(() => {
+        createProduct && createProduct.success === true && handleOpen();
+    }, [createProduct]);
+
     const hash = window.location.hash;
 
 
@@ -68,23 +97,33 @@ const AddProduct = () => {
             <Typography sx={{ fontSize: '24px' }} component="h2">Add New Product</Typography>
             <form
                 onSubmit={ProductCreation}
-                className="w-full flex items-center justify-center"
+                className="w-full flex items-center justify-center relative"
             >
+                {createProductLoading && <Loader />}
                 <div className="md:w-full sm:w-full w-1/2 bg-[white] shadow-lg flex flex-col gap-4 items-center py-8 px-3 rounded-lg">
-                    <TextField fullWidth label="Product Name" />
                     <TextField
-                    fullWidth
+                        value={name}
+                        onChange={(e) => setProductName(e.target.value)}
+                        fullWidth
+                        label="Product Name" />
+                    <TextField
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        fullWidth
                         label="Product Description"
                         multiline
                         minRows={4}
                     />
-                    <TextField fullWidth label="Product Price" type="number" />
+                    <TextField
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        fullWidth
+                        label="Product Price"
+                        type="number" />
                     <FormControl sx={{ width: '100%' }}>
                         <InputLabel id="demo-multiple-name-label">Product Category</InputLabel>
                         <Select
                             sx={{ width: '100%' }}
-                            labelId="demo-multiple-name-label"
-                            multiple
                             value={personName}
                             onChange={handleChange}
                             input={<OutlinedInput label="Product Category" />}
@@ -117,8 +156,8 @@ const AddProduct = () => {
                             <div className="flex flex-col items-center justiy-start gap-0" key={item}>
                                 <img
                                     className="w-20 h-20"
-                                    src={item}
-                                    alt={item}
+                                    src={item.url}
+                                    alt={item.public_id}
                                     loading="lazy"
                                 />
                                 <IconButton
@@ -131,7 +170,12 @@ const AddProduct = () => {
                             </div>
                         ))}
                     </div>
-                    <TextField fullWidth label="Product Stock" type="number" />
+                    <TextField
+                        value={stock}
+                        onChange={(e) => setStock(e.target.value)}
+                        fullWidth
+                        label="Product Stock"
+                        type="number" />
                     <div className="sm:w-full w-64 flex items-center justify-center">
                         <Button
                             type='submit'
@@ -142,6 +186,11 @@ const AddProduct = () => {
                     </div>
                 </div>
             </form>
+            {<ModalBasic open={open} setOpen={setOpen} >
+                <div className='w-full flex items-center justify-center'>
+                    <span>{createProductError ? createProductError : createProduct && createProduct.message}</span>
+                </div>
+            </ModalBasic>}
         </div>
 };
 export default AddProduct;

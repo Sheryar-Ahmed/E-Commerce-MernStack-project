@@ -75,7 +75,7 @@ const creatProduct = expressAsyncHandler(async (req, res) => {
     // passing usr id to the body;
     req.body.user = req.user.id;
     const setProduct = await products.create(req.body);
-    setProduct ? res.status(201).json({ success: true, setProduct }) : res.status(400)
+    setProduct ? res.status(201).json({ success: true, message: 'Product Added Successfully', setProduct }) : res.status(400)
 
 });
 // @ Update Product 
@@ -90,7 +90,14 @@ const updateProduct = expressAsyncHandler(async (req, res) => {
         runValidators: true,
         useFindAndModify: false,
     });
-    updatedProduct ? res.status(200).json({ success: true, updatedProduct }) : res.status(400)
+    updatedProduct
+        ?
+        res.status(200).json({
+            success: true,
+            message: "Product Updated Successfully",
+            updatedProduct
+        })
+        : res.status(400)
 
 });
 // @ Del Product 

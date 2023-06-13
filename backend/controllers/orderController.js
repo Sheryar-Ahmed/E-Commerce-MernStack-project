@@ -119,7 +119,7 @@ const deleteOrder = expressAsyncHandler(async (req, res) => {
 //update an order --admin
 const updateOrder = expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
-
+    console.log("order", order, order.orderStatus, order.product, order.quantity);
     if (!order) {
         res.status(400);
         throw new Error(`Order not found with this id: ${req.params.id}`);
@@ -130,7 +130,7 @@ const updateOrder = expressAsyncHandler(async (req, res) => {
     };
     //we need to calculate the remaining quantity of the product
     order.orderItems.forEach(async (order) => {
-        await updateStock(order.product, order.quantity);
+        await updateStock(order.productId, order.quantity);
     });
     //after this set the admin status 
     order.orderStatus = req.body.status;

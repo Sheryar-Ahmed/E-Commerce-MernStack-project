@@ -56,6 +56,7 @@ function ResponsiveDrawer(props) {
     if (logout && logout.success === true) {
         navigate('/login');
     };
+    
     const drawer = (
         <div>
             <Toolbar />
