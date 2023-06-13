@@ -28,13 +28,24 @@ const MenuProps = {
 const names = [
     'Mobile',
     'Laptop',
-    'Electronics',
-    'Clothes',
-    'Headphones',
     'Cargo',
     'Apartment',
     'Cars',
     'Bikes',
+    'Apparel and accessories',
+    'Consumer Electronics',
+    'Furniture and Decor',
+    'Health',
+    'Personal Care',
+    'Beauty ',
+    'Auto and Parts',
+    'Food and Beverage',
+    'Books',
+    'Movies',
+    'Music',
+    'Games',
+    'Shoes',
+
 ];
 
 const AddProduct = () => {

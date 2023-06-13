@@ -10,12 +10,12 @@ import Paper from '@mui/material/Paper';
 
 export default function DenseTable({ rows, cell }) {
   return (
-    <TableContainer sx={{width:'100%'}} component={Paper}>
+    <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead sx={{ background: 'yellowgreen' }}>
           <TableRow>
             <TableCell>{cell[0]}</TableCell>
-            {cell.map((i) => <TableCell key={i} align="right">{cell[i + 1]}</TableCell>)}
+            {cell.map((item, i) => <TableCell key={i} align="right">{cell[i + 1]}</TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>

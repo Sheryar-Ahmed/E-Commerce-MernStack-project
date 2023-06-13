@@ -40,14 +40,25 @@ const Products = () => {
   }
   //categories
   let categoryList = [
-    "Laptop",
-    "PC",
-    "Mobile Phone",
-    "AirPods",
-    "HeadPhones",
-    "Tops",
-    "LCD",
-    "Movies",
+      'Mobile',
+      'Laptop',
+      'Cargo',
+      'Apartment',
+      'Cars',
+      'Bikes',
+      'Apparel and accessories',
+      'Consumer Electronics',
+      'Furniture and Decor',
+      'Health',
+      'Personal Care',
+      'Beauty ',
+      'Auto and Parts',
+      'Food and Beverage',
+      'Books',
+      'Movies',
+      'Music',
+      'Games',
+      'Shoes',
   ]
   const handleChange = (event, newValue) => {
     setPrice(newValue);

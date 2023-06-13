@@ -203,7 +203,7 @@ const AllProducts = () => {
                     </div>
                     <div className="w-full gap-2 flex flex-row flex-wrap items-center justify-start">
                         {selectImage.length < 9 && selectImage.map((item) => (
-                            <div className="flex flex-col items-center justiy-start gap-0" key={item}>
+                            <div className="flex flex-col items-center justiy-start gap-0" key={item.public_id}>
                                 <img
                                     className="w-20 h-20"
                                     src={item.url}

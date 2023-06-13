@@ -46,14 +46,14 @@ function ResponsiveDrawer(props) {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-    const { logout } = useSelector(state => state.logout);
+    const { logout, loadingPass } = useSelector(state => state.logout);
     const { user, loading } = useSelector(state => state.user);
 
     const logoutHandler = () => {
         dispatch(logoutUser());
     };
 
-    if (logout && logout.success === true) {
+    if (!loadingPass && logout && logout.success === true) {
         navigate('/login');
     };
     
