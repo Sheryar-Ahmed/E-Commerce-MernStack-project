@@ -118,7 +118,6 @@ const deleteOrder = expressAsyncHandler(async (req, res) => {
 });
 //update an order --admin
 const updateOrder = expressAsyncHandler(async (req, res) => {
-    //populate will gives us name and email by using only id of the user.
     const order = await Order.findById(req.params.id);
 
     if (!order) {
@@ -142,7 +141,7 @@ const updateOrder = expressAsyncHandler(async (req, res) => {
     await order.save({ validateBeforeSave: false });
     res.status(200).json({
         success: true,
-        order: order,
+        message: "Order Updated Successfully",
     });
 });
 

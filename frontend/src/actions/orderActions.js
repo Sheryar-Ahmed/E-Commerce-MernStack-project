@@ -13,7 +13,10 @@ import {
     ORDERS_LIST_ADMIN_FAIL,
     REMOVE_ORDER_ADMIN_REQUEST,
     REMOVE_ORDER_ADMIN_SUCCESS,
-    REMOVE_ORDER_ADMIN_FAIL
+    REMOVE_ORDER_ADMIN_FAIL,
+    UPDATE_ORDERSTATUS_ROLE_ADMIN_REQUEST,
+    UPDATE_ORDERSTATUS_ROLE_ADMIN_SUCCESS,
+    UPDATE_ORDERSTATUS_ROLE_ADMIN_FAIL
 } from '../constants/OrderConstant';
 import axios from 'axios';
 
@@ -100,5 +103,18 @@ export const removeOrderAdminAction = (id) => async (dispatch) => {
             type: REMOVE_ORDER_ADMIN_FAIL,
             payload: error.response.data.message
         })
+    }
+};
+
+//update order status admin
+export const updateOrderStatusAction = (id, orderStatusData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_ORDERSTATUS_ROLE_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/order/${id}`, orderStatusData, config);
+        dispatch({ type: UPDATE_ORDERSTATUS_ROLE_ADMIN_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({ type: UPDATE_ORDERSTATUS_ROLE_ADMIN_FAIL, payload: error.response.data.message })
+
     }
 };

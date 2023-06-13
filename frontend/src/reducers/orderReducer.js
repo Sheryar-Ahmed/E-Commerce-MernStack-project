@@ -2,7 +2,7 @@ import {
     CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, CLEAR_ERROR,
     ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL,
     MY_ALL_ORDER_REQUEST, MY_ALL_ORDER_SUCCESS, MY_ALL_ORDER_FAIL,
-    ORDERS_LIST_ADMIN_REQUEST, ORDERS_LIST_ADMIN_SUCCESS, ORDERS_LIST_ADMIN_FAIL, REMOVE_ORDER_ADMIN_REQUEST, REMOVE_ORDER_ADMIN_SUCCESS, REMOVE_ORDER_ADMIN_FAIL
+    ORDERS_LIST_ADMIN_REQUEST, ORDERS_LIST_ADMIN_SUCCESS, ORDERS_LIST_ADMIN_FAIL, REMOVE_ORDER_ADMIN_REQUEST, REMOVE_ORDER_ADMIN_SUCCESS, REMOVE_ORDER_ADMIN_FAIL, UPDATE_ORDERSTATUS_ROLE_ADMIN_REQUEST, UPDATE_ORDERSTATUS_ROLE_ADMIN_SUCCESS, UPDATE_ORDERSTATUS_ROLE_ADMIN_FAIL
 } from '../constants/OrderConstant';
 
 // create order
@@ -141,6 +141,35 @@ export const removeOrderReducer = (state = { orderRem: {} }, action) => {
             return {
                 ...state,
                 orderRemError: null
+            }
+        default:
+            return state;
+    }
+};
+
+
+//update orderstatus role admin access
+export const updateOrderStatusRoleAdminReducer = (state = { updatedOrderStatus: {} }, action) => {
+    switch (action.type) {
+        case UPDATE_ORDERSTATUS_ROLE_ADMIN_REQUEST:
+            return {
+                updatedOrderStatusLoading: true,
+                updatedOrderStatus: {},
+            }
+        case UPDATE_ORDERSTATUS_ROLE_ADMIN_SUCCESS:
+            return {
+                updatedOrderStatusLoading: false,
+                updatedOrderStatus: action.payload,
+            }
+        case UPDATE_ORDERSTATUS_ROLE_ADMIN_FAIL:
+            return {
+                updatedOrderStatusLoading: false,
+                updatedOrderStatusError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                updatedOrderStatusError: null
             }
         default:
             return state;
