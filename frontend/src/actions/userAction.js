@@ -29,10 +29,7 @@ import {
     USERS_LIST_ADMIN_FAIL,
     REMOVE_USER_ADMIN_REQUEST,
     REMOVE_USER_ADMIN_SUCCESS,
-    REMOVE_USER_ADMIN_FAIL,
-    UPDATE_USER_ROLE_ADMIN_REQUEST,
-    UPDATE_USER_ROLE_ADMIN_SUCCESS,
-    UPDATE_USER_ROLE_ADMIN_FAIL
+    REMOVE_USER_ADMIN_FAIL
 } from '../constants/userConstant';
 import axios from 'axios';
 
@@ -138,7 +135,7 @@ export const updatedProfile = (userPass) => async (dispatch) => {
     try {
         dispatch({ type: USER_UPDATED_REQUEST });
         const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
-        const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/me/update`, userPass, config);
+        const { data } = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/me/update`, userPass, config);
         dispatch({ type: USER_UPDATED_SUCCESS, payload: data })
     } catch (error) {
         dispatch({ type: USER_UPDATED_FAIL, payload: error.response.data.message })
@@ -176,17 +173,5 @@ export const removeUserAdminAction = (id) => async (dispatch) => {
             type: REMOVE_USER_ADMIN_FAIL,
             payload: error.response.data.message
         })
-    }
-};
-
-export const updateUserRoleAdminAction = (id, dataRole) => async (dispatch) => {
-    try {
-        dispatch({ type: UPDATE_USER_ROLE_ADMIN_REQUEST });
-        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
-        const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/user/${id}`, dataRole, config);
-        dispatch({ type: UPDATE_USER_ROLE_ADMIN_SUCCESS, payload: data })
-    } catch (error) {
-        dispatch({ type: UPDATE_USER_ROLE_ADMIN_FAIL, payload: error.response.data.message })
-
     }
 };

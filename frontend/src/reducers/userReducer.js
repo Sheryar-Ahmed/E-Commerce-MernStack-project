@@ -29,10 +29,7 @@ import {
     USERS_LIST_ADMIN_FAIL,
     REMOVE_USER_ADMIN_REQUEST,
     REMOVE_USER_ADMIN_SUCCESS,
-    REMOVE_USER_ADMIN_FAIL,
-    UPDATE_USER_ROLE_ADMIN_REQUEST,
-    UPDATE_USER_ROLE_ADMIN_SUCCESS,
-    UPDATE_USER_ROLE_ADMIN_FAIL
+    REMOVE_USER_ADMIN_FAIL
 } from '../constants/userConstant';
 
 
@@ -265,34 +262,6 @@ export const removeUserAdminReducer = (state = { userRem: {} }, action) => {
             return {
                 ...state,
                 userRemError: null
-            }
-        default:
-            return state;
-    }
-};
-
-//update user role admin access
-export const updateUserRoleAdminReducer = (state = { userRole: {} }, action) => {
-    switch (action.type) {
-        case UPDATE_USER_ROLE_ADMIN_REQUEST:
-            return {
-                userRoleLoading: true,
-                userRole: {},
-            }
-        case UPDATE_USER_ROLE_ADMIN_SUCCESS:
-            return {
-                userRoleLoading: false,
-                userRole: action.payload,
-            }
-        case UPDATE_USER_ROLE_ADMIN_FAIL:
-            return {
-                userRoleLoading: false,
-                userRoleError: action.payload
-            }
-        case CLEAR_ERROR:
-            return {
-                ...state,
-                userRoleError: null
             }
         default:
             return state;

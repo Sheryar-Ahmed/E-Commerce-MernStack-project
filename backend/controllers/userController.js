@@ -11,7 +11,7 @@ const userRegistration = expressAsyncHandler(async (req, res) => {
         throw new Error("Nothin in request");
     };
     const { name, email, avatar, password } = await req.body;
-    if (!name || !email || !avatar || !password) {
+    if (!name || !email || !avatar ||  !password) {
         res.status(400);
         throw new Error("Something is missing");
     };
@@ -62,7 +62,7 @@ const logout = expressAsyncHandler(async (req, res) => {
 
     res.cookie("token", null, {
         expires: new Date(Date.now()),
-        httpOnly: true,
+        httpOnly : true,
     });
 
     res.status(200).json({
@@ -218,13 +218,12 @@ const getSingleUser = expressAsyncHandler(async (req, res) => {
 //update role of the user --admin
 const updateRole = expressAsyncHandler(async (req, res) => {
     const newUserData = {
-        role: req.body.role,
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role
     };
 
     const user = await User.findByIdAndUpdate(req.params.id, newUserData);
-    if(!user) {
-        throw new Error("User not found with this id")
-    }
     res.status(200).json({
         success: true,
         message: "role updated successfully with information."
