@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProductsListAdmin } from '../../actions/productAction';
 import { getOrdersListAdmin } from '../../actions/orderActions';
 import { getUsersListAdmin } from '../../actions/userAction';
+import Paper from '@mui/material/Paper';
+
 
 const Admin = () => {
 
@@ -125,14 +127,14 @@ const Admin = () => {
                 />
             </div>
         </div>
-        <paper>
+        <Paper>
             <div className='sm:text-sm sm:py-3 text-center p-3 mt-2' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                 &copy; {new Date().getFullYear()} Copyright:{' '}
                 <NavLink className='text-dark' to='/'>
                     Ecommerece
                 </NavLink>
             </div>
-        </paper>
+        </Paper>
     </React.Fragment>
 };
 export default Admin;
