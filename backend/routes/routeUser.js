@@ -25,7 +25,7 @@ router.route('/password/forgot').post(forgotPassword);
 router.route('/password/reset/:token').put(resetPassword);
 router.route('/me').get(isAuthenticated, getUserDetails);
 router.route('/password/update').post(isAuthenticated, updatePassword);
-router.route('/me/update').put(isAuthenticated, updateProfile);
+router.route('/me/update').post(isAuthenticated, updateProfile);
 router.route('/admin/users').get(isAuthenticated, authorizeRole("admin"), getAllUsers);
 router.route('/admin/user/:id')
     .get(isAuthenticated, authorizeRole("admin"), getSingleUser)

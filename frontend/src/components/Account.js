@@ -34,6 +34,7 @@ const Account = () => {
     const updateProfile = (e) => {
         e.preventDefault();
         dispatch(updatedProfile(updatedProfileData));
+        window.location.reload(false);
     };
 
     const { loading, error, user } = useSelector(state => state.user);
