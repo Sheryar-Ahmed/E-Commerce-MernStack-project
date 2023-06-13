@@ -40,25 +40,25 @@ const Products = () => {
   }
   //categories
   let categoryList = [
-      'Mobile',
-      'Laptop',
-      'Cargo',
-      'Apartment',
-      'Cars',
-      'Bikes',
-      'Apparel and accessories',
-      'Consumer Electronics',
-      'Furniture and Decor',
-      'Health',
-      'Personal Care',
-      'Beauty ',
-      'Auto and Parts',
-      'Food and Beverage',
-      'Books',
-      'Movies',
-      'Music',
-      'Games',
-      'Shoes',
+    'Mobile',
+    'Laptop',
+    'Cargo',
+    'Apartment',
+    'Cars',
+    'Bikes',
+    'Apparel and accessories',
+    'Consumer Electronics',
+    'Furniture and Decor',
+    'Health',
+    'Personal Care',
+    'Beauty ',
+    'Auto and Parts',
+    'Food and Beverage',
+    'Books',
+    'Movies',
+    'Music',
+    'Games',
+    'Shoes',
   ]
   const handleChange = (event, newValue) => {
     setPrice(newValue);
@@ -100,7 +100,7 @@ const Products = () => {
             className="block w-full p-4 pl-10 text-sm text-emerald-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-blue-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search..."
             required
-            value={searchParams.get('keyword')}
+            value={searchParams.get('keyword') === null ? "" : searchParams.get('keyword')}
             onChange={(e) => onSearchParams(e)}
           />
           <div className="absolute inset-y-0 right-0 flex items-center pr-24 ">

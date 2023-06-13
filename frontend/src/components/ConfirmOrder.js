@@ -57,7 +57,7 @@ const ConfirmOrder = () => {
                     <div className='w-full'>
                         <div className='w-full flex flex-col gap-5'>
                             <h1 className='font-bold text-xl text-start'>Your Cart Items</h1>
-                            {cartItems && cartItems.map((item) => <div className='w-11/12 flex flex-row justify-between'>
+                            {cartItems && cartItems.map((item) => <div key={item.name} className='w-11/12 flex flex-row justify-between'>
                                 <div className='w-[60%] flex flex-row flex-wrap items-center sm:justify-center'>
                                     <div className='w-32 h-32'>
                                         <img src={item.image} alt={item.name} />
