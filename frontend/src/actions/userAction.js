@@ -134,11 +134,11 @@ export const logoutUser = () => async (dispatch) => {
 };
 
 
-export const updatedProfile = (userPass) => async (dispatch) => {
+export const updatedProfile = (userUpdatedData) => async (dispatch) => {
     try {
         dispatch({ type: USER_UPDATED_REQUEST });
         const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
-        const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/me/update`, userPass, config);
+        const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/me/update`, userUpdatedData, config);
         dispatch({ type: USER_UPDATED_SUCCESS, payload: data })
     } catch (error) {
         dispatch({ type: USER_UPDATED_FAIL, payload: error.response.data.message })

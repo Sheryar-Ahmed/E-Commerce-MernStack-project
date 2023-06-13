@@ -119,7 +119,6 @@ const deleteOrder = expressAsyncHandler(async (req, res) => {
 //update an order --admin
 const updateOrder = expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
-    console.log("order", order, order.orderStatus, order.product, order.quantity);
     if (!order) {
         res.status(400);
         throw new Error(`Order not found with this id: ${req.params.id}`);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from './Loader';
 import { NavLink } from 'react-router-dom';
 import Modal from './Modal';
-import { updatedPassword, updatedProfile } from '../actions/userAction';
+import { updatedPassword, updatedProfile, userDetails } from '../actions/userAction';
 const Account = () => {
 
     const dispatch = useDispatch();
@@ -34,7 +34,10 @@ const Account = () => {
     const updateProfile = (e) => {
         e.preventDefault();
         dispatch(updatedProfile(updatedProfileData));
-        window.location.reload(false);
+        const timer = setTimeout(() => {
+            dispatch(userDetails());
+        }, 3000);
+        return () => clearTimeout(timer);
     };
 
     const { loading, error, user } = useSelector(state => state.user);
