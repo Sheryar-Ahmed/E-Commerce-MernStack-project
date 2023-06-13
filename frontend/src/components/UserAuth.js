@@ -23,7 +23,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box className='shadow-lg p-3 mb-3 md:w-[400px] sm:w-[300px] lg:w-[400px] xl:w-[450px]'>
-                    <Typography>{children}</Typography>
+                    <Typography component={"div"}>{children}</Typography>
                 </Box>
             )}
         </div>
