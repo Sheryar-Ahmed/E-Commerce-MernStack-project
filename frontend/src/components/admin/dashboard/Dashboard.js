@@ -31,16 +31,31 @@ import Reviews from '../Reviews';
 import AllProducts from '../AllProducts';
 import Orders from '../Order';
 import Users from '../Users';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../../actions/userAction';
+import { useNavigate } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
     const { window } = props;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+    const { logout } = useSelector(state => state.logout);
+    const logoutHandler = () => {
+        dispatch(logoutUser());
+    };
 
+    // React.useEffect(() => {
+        if (logout && logout.success === true) {
+            navigate('/login');
+        };
+    // }, []);
     const drawer = (
         <div>
             <Toolbar />
@@ -69,7 +84,7 @@ function ResponsiveDrawer(props) {
             </List>
             <Divider />
             <div className='w-full flex items-center justify-center mt-5'>
-                <Button variant="contained" startIcon={<Log />}>
+                <Button onClick={() => logoutHandler()} variant="contained" startIcon={<Log />}>
                     Logout
                 </Button>
             </div>
@@ -168,6 +183,7 @@ function ResponsiveDrawer(props) {
                 component="main"
                 sx={{ background: '#eceff1', flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
+                <Toolbar />
                 {<Admin />}
                 {<AddProduct />}
                 {<Reviews />}

@@ -9,7 +9,13 @@ import {
     CLEAR_ERROR,
     PRODUCT_REVIEW_REQUEST,
     PRODUCT_REVIEW_SUCCESS,
-    PRODUCT_REVIEW_FAIL
+    PRODUCT_REVIEW_FAIL,
+    PRODUCTS_LIST_ADMIN_REQUEST,
+    PRODUCTS_LIST_ADMIN_SUCCESS,
+    PRODUCTS_LIST_ADMIN_FAIL,
+    REMOVE_PRODUCT_ADMIN_SUCCESS,
+    REMOVE_PRODUCT_ADMIN_REQUEST,
+    REMOVE_PRODUCT_ADMIN_FAIL
 } from '../constants/productConstant';
 
 
@@ -66,9 +72,39 @@ export const addProductRev = (revData) => async (dispatch) => {
     }
 };
 
+//get products list
+export const getProductsListAdmin = () => async (dispatch) => {
+    try {
+        dispatch({ type: PRODUCTS_LIST_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/products`, config);
+        dispatch({ type: PRODUCTS_LIST_ADMIN_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({ type: PRODUCTS_LIST_ADMIN_FAIL, payload: error.response.data.message })
+
+    }
+};
+//remove product action for admin
+export const removeProductAdminAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: REMOVE_PRODUCT_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/products/${id}`, config);
+        dispatch({
+            type: REMOVE_PRODUCT_ADMIN_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: REMOVE_PRODUCT_ADMIN_FAIL,
+            payload: error.response.data.message
+        })
+    }
+};
+
 
 export const clearError = async (dispatch) => {
     dispatch({
         type: CLEAR_ERROR,
     })
-}
+};

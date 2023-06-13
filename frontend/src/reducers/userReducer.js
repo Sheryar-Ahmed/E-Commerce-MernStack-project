@@ -23,7 +23,13 @@ import {
     USER_FORGOT_pass_FAIL,
     USER_RESET_REQUEST,
     USER_RESET_SUCCESS,
-    USER_RESET_FAIL
+    USER_RESET_FAIL,
+    USERS_LIST_ADMIN_REQUEST,
+    USERS_LIST_ADMIN_SUCCESS,
+    USERS_LIST_ADMIN_FAIL,
+    REMOVE_USER_ADMIN_REQUEST,
+    REMOVE_USER_ADMIN_SUCCESS,
+    REMOVE_USER_ADMIN_FAIL
 } from '../constants/userConstant';
 
 
@@ -204,3 +210,60 @@ export const updateUserProfileReducer = (state = { updatedUser: {} }, action) =>
             return state;
     }
 }
+
+
+//get users list for admin
+
+export const usersListReducer = (state = { usersList: [] }, action) => {
+    switch (action.type) {
+        case USERS_LIST_ADMIN_REQUEST:
+            return {
+                usersListLoading: true,
+                usersList: [],
+            }
+        case USERS_LIST_ADMIN_SUCCESS:
+            return {
+                usersListLoading: false,
+                usersList: action.payload,
+            }
+        case USERS_LIST_ADMIN_FAIL:
+            return {
+                usersListLoading: false,
+                usersListError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                usersListError: null
+            }
+        default:
+            return state;
+    }
+};
+//remove user admin access
+export const removeUserAdminReducer = (state = { userRem: {} }, action) => {
+    switch (action.type) {
+        case REMOVE_USER_ADMIN_REQUEST:
+            return {
+                userRemLoading: true,
+                userRem: {},
+            }
+        case REMOVE_USER_ADMIN_SUCCESS:
+            return {
+                userRemLoading: false,
+                userRem: action.payload,
+            }
+        case REMOVE_USER_ADMIN_FAIL:
+            return {
+                userRemLoading: false,
+                userRemError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                userRemError: null
+            }
+        default:
+            return state;
+    }
+};

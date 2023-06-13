@@ -7,7 +7,13 @@ import {
     ORDER_DETAILS_FAIL,
     MY_ALL_ORDER_REQUEST,
     MY_ALL_ORDER_SUCCESS,
-    MY_ALL_ORDER_FAIL
+    MY_ALL_ORDER_FAIL,
+    ORDERS_LIST_ADMIN_REQUEST,
+    ORDERS_LIST_ADMIN_SUCCESS,
+    ORDERS_LIST_ADMIN_FAIL,
+    REMOVE_ORDER_ADMIN_REQUEST,
+    REMOVE_ORDER_ADMIN_SUCCESS,
+    REMOVE_ORDER_ADMIN_FAIL
 } from '../constants/OrderConstant';
 import axios from 'axios';
 
@@ -60,6 +66,38 @@ export const getOrderDetails = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ORDER_DETAILS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+};
+
+//get orders list
+export const getOrdersListAdmin = () => async (dispatch) => {
+    try {
+        dispatch({ type: ORDERS_LIST_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/orders`, config);
+        dispatch({ type: ORDERS_LIST_ADMIN_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({ type: ORDERS_LIST_ADMIN_FAIL, payload: error.response.data.message })
+
+    }
+};
+
+
+//remove order action for admin
+export const removeOrderAdminAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: REMOVE_ORDER_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/order/${id}`, config);
+        dispatch({
+            type: REMOVE_ORDER_ADMIN_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: REMOVE_ORDER_ADMIN_FAIL,
             payload: error.response.data.message
         })
     }

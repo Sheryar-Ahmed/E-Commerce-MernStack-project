@@ -8,7 +8,13 @@ import {
     CLEAR_ERROR,
     PRODUCT_REVIEW_REQUEST,
     PRODUCT_REVIEW_SUCCESS,
-    PRODUCT_REVIEW_FAIL
+    PRODUCT_REVIEW_FAIL,
+    PRODUCTS_LIST_ADMIN_REQUEST,
+    PRODUCTS_LIST_ADMIN_SUCCESS,
+    PRODUCTS_LIST_ADMIN_FAIL,
+    REMOVE_PRODUCT_ADMIN_REQUEST,
+    REMOVE_PRODUCT_ADMIN_SUCCESS,
+    REMOVE_PRODUCT_ADMIN_FAIL
 } from '../constants/productConstant';
 
 export const productReducer = (state = { products: [] }, action) => {
@@ -90,6 +96,67 @@ export const addProductRevReducer = (state = { productRev: {} }, action) => {
             return {
                 ...state,
                 errorRev: null
+            }
+        default:
+            return state;
+    }
+};
+
+
+//delete product for admin
+
+export const getRemoveProductReducer = (state = { productRem: {} }, action) => {
+    switch (action.type) {
+        case REMOVE_PRODUCT_ADMIN_REQUEST:
+            return {
+                productRemLoading: true,
+                productRem: {},
+            }
+        case REMOVE_PRODUCT_ADMIN_SUCCESS:
+            return {
+                productRemLoading: false,
+                productRem: action.payload,
+            }
+        case REMOVE_PRODUCT_ADMIN_FAIL:
+            return {
+                productRemLoading: false,
+                productRemError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                productRemError: null
+            }
+        default:
+            return state;
+    }
+};
+
+//get all products list for admin
+
+export const getProductsListReducer = (state = { productsList: [] }, action) => {
+    switch (action.type) {
+        case PRODUCTS_LIST_ADMIN_REQUEST:
+            return {
+                productsListLoading: true,
+                productsList: [],
+            }
+        case PRODUCTS_LIST_ADMIN_SUCCESS:
+            return {
+                productsListLoading: false,
+                productsList: action.payload.productsAll,
+                stock: action.payload.stock,
+                outStock: action.payload.outStock,
+            }
+        case PRODUCTS_LIST_ADMIN_FAIL:
+            return {
+                productsListLoading: false,
+                productsListError: action.payload
+            }
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                productsListError: null
             }
         default:
             return state;

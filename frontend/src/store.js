@@ -1,19 +1,22 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk';
-import { getProductDetailsReducer, productReducer, addProductRevReducer } from './reducers/productReducer';
-import { userReducer, updatePasswordReducer, updateUserProfileReducer, userForgotPassword, resetPasswordToken } from './reducers/userReducer';
+import { getProductDetailsReducer, productReducer, addProductRevReducer, getProductsListReducer, getRemoveProductReducer } from './reducers/productReducer';
+import { userReducer, updatePasswordReducer, updateUserProfileReducer, userForgotPassword, resetPasswordToken, usersListReducer, logoutUserReducer, removeUserAdminReducer } from './reducers/userReducer';
 import { addToCartReducer } from './reducers/cartReducer';
 import {
     createNewOrderReducer,
     getMyordersReducers,
     getOrderDetailsReducer,
+    getOrdersListReducer,
+    removeOrderReducer,
 } from './reducers/orderReducer';
 
 const reducer = combineReducers({
     products: productReducer,
     productDetails: getProductDetailsReducer,
     user: userReducer,
+    logout: logoutUserReducer,
     updatePass: updatePasswordReducer,
     updatedUser: updateUserProfileReducer,
     productRev: addProductRevReducer,
@@ -23,6 +26,12 @@ const reducer = combineReducers({
     detailOrder: getOrderDetailsReducer,
     forgotPass: userForgotPassword,
     resetPass: resetPasswordToken,
+    usersList: usersListReducer,
+    productsList: getProductsListReducer,
+    ordersList: getOrdersListReducer,
+    productRem: getRemoveProductReducer,
+    orderRem: removeOrderReducer,
+    userRem: removeUserAdminReducer,
 });
 //we will set localstorage data 
 let initialState = {

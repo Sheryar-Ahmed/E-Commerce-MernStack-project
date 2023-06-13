@@ -23,7 +23,13 @@ import {
     USER_FORGOT_pass_FAIL,
     USER_RESET_REQUEST,
     USER_RESET_SUCCESS,
-    USER_RESET_FAIL
+    USER_RESET_FAIL,
+    USERS_LIST_ADMIN_REQUEST,
+    USERS_LIST_ADMIN_SUCCESS,
+    USERS_LIST_ADMIN_FAIL,
+    REMOVE_USER_ADMIN_REQUEST,
+    REMOVE_USER_ADMIN_SUCCESS,
+    REMOVE_USER_ADMIN_FAIL
 } from '../constants/userConstant';
 import axios from 'axios';
 
@@ -134,5 +140,38 @@ export const updatedProfile = (userPass) => async (dispatch) => {
     } catch (error) {
         dispatch({ type: USER_UPDATED_FAIL, payload: error.response.data.message })
 
+    }
+};
+
+
+//get users list
+export const getUsersListAdmin = () => async (dispatch) => {
+    try {
+        dispatch({ type: USERS_LIST_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/users`, config);
+        dispatch({ type: USERS_LIST_ADMIN_SUCCESS, payload: data.usersList })
+    } catch (error) {
+        dispatch({ type: USERS_LIST_ADMIN_FAIL, payload: error.response.data.message })
+
+    }
+};
+
+
+//remove user action for admin
+export const removeUserAdminAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: REMOVE_USER_ADMIN_REQUEST });
+        const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+        const { data } = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/user/${id}`, config);
+        dispatch({
+            type: REMOVE_USER_ADMIN_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: REMOVE_USER_ADMIN_FAIL,
+            payload: error.response.data.message
+        })
     }
 };

@@ -80,7 +80,17 @@ export default function UserAuth() {
         dispatch(userRegistration(userData, avatar));
     }
     const { isAuthenticated, loading, user, error } = useSelector(state => state.user);
-    let userRedirectUrl = location.search ? location.search.split("=")[1] : '/profile';
+    // let userRedirectUrl = location.search ? location.search.split("=")[1] : '/profile';
+    let userRedirectUrl;
+    if(location.search){
+        userRedirectUrl = location.search.split("=")[1]
+    }else{
+        if(user && user.role === "admin"){
+            userRedirectUrl = '/admin/dashboard'
+        }else {
+            userRedirectUrl = '/profile';
+        }
+    };
     React.useEffect(() => {
         if (isAuthenticated) {
             navigate(userRedirectUrl);

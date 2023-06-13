@@ -30,13 +30,13 @@ import ResetPassword from './components/ResetPassword.js';
 function App() {
   const [stripeKey, setStripeApiKey] = React.useState();
   const getStripeaApiKey = async () => {
-    try{
-    const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/stripeApiKey`, config);
-    setStripeApiKey(data.stripeApiKey);
-  }catch(error){
-    console.log("stripeApiKey", error);
-  }
+    try {
+      const config = { Headers: { "Content-Type": "application/json", 'Access-Control-Allow-Credentials': true }, withCredentials: true };
+      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/stripeApiKey`, config);
+      setStripeApiKey(data.stripeApiKey);
+    } catch (error) {
+      console.log("stripeApiKey", error);
+    }
   }
 
   useEffect(() => {
@@ -56,6 +56,7 @@ function App() {
         <Route exact path='/password/reset/:token' Component={ResetPassword} />
 
         <Route
+          exact
           path="/profile"
           element={
             <ProtectedRoute >
@@ -63,9 +64,28 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route exact path='/shipping' Component={Shipping} />
-        <Route exact path='/order/confirm' Component={ConfirmOrder} />
+        <Route
+          exact
+          path="/shipping"
+          element={
+            <ProtectedRoute >
+              <Shipping />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
+          path="/order/confirm"
+          element={
+            <ProtectedRoute >
+              <ConfirmOrder />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route exact path='/shipping' Component={Shipping} /> */}
+        {/* <Route exact path='/order/confirm' Component={ConfirmOrder} /> */}
         {stripeKey && <Route
+          exact
           path="/process/payment"
           element={
             <ProtectedRoute>
@@ -75,11 +95,47 @@ function App() {
             </ProtectedRoute>
           }
         />}
-        <Route exact path='/success' Component={SuccessPayment} />
-        <Route exact path='/order/me' Component={MyOrder} />
-        <Route exact path='/order/:id' Component={OrderDetails} />
+        <Route
+          exact
+          path="/success"
+          element={
+            <ProtectedRoute >
+              <SuccessPayment />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route exact path='/success' Component={SuccessPayment} /> */}
+        <Route
+          exact
+          path="/order/me"
+          element={
+            <ProtectedRoute >
+              <MyOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
+          path="/order/:id"
+          element={
+            <ProtectedRoute >
+              <OrderDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute >
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route exact path='/order/me' Component={MyOrder} /> */}
+        {/* <Route exact path='/order/:id' Component={OrderDetails} /> */}
         <Route exact path='/cart' Component={Cart} />
-        <Route exact path='/admin/dashboard' Component={Dashboard} />
+        {/* <Route exact path='/admin/dashboard' Component={Dashboard} /> */}
       </Routes>
       <Footer />
     </BrowserRouter>

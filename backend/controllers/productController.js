@@ -27,6 +27,28 @@ const getAllProduct = expressAsyncHandler(async (req, res) => {
     })
 
 });
+// @ get AllProducts 
+// @ ADMIN
+// @ route  GET api/v1/admin/products
+const getAllProductsAdmin = expressAsyncHandler(async (req, res) => {
+    const productsAll = await products.find({});
+    let stock = 0;
+    let outStock = 0;
+    productsAll.forEach((item) => {
+        if (item.stock === 0) {
+            outStock++;
+        } else {
+            stock++;
+        }
+    });
+    res.status(200).json({
+        success: true,
+        productsAll,
+        stock,
+        outStock,
+    });
+
+});
 // @ Product Details 
 // @ Public
 // @ route  GET api/v1/products/:ID 
@@ -186,6 +208,7 @@ const deleteProductReview = expressAsyncHandler(async (req, res) => {
 
 module.exports = {
     getAllProduct,
+    getAllProductsAdmin,
     productDetails,
     creatProduct,
     updateProduct,
