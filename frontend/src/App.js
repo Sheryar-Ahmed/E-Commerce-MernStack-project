@@ -82,8 +82,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* <Route exact path='/shipping' Component={Shipping} /> */}
-        {/* <Route exact path='/order/confirm' Component={ConfirmOrder} /> */}
         {stripeKey && <Route
           exact
           path="/process/payment"
@@ -104,7 +102,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* <Route exact path='/success' Component={SuccessPayment} /> */}
         <Route
           exact
           path="/order/me"
@@ -132,10 +129,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* <Route exact path='/order/me' Component={MyOrder} /> */}
-        {/* <Route exact path='/order/:id' Component={OrderDetails} /> */}
         <Route exact path='/cart' Component={Cart} />
-        {/* <Route exact path='/admin/dashboard' Component={Dashboard} /> */}
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -25,6 +25,7 @@ const ProductDetails = () => {
     const dispatch = useDispatch();
 
     const [openSnack, setOpenSnack] = React.useState(false);
+    const [openSnackError, setOpenSnackError] = React.useState(false);
 
 
     const { loading, error, productDetails } = useSelector(state => state.productDetails);
@@ -34,7 +35,10 @@ const ProductDetails = () => {
     useEffect(() => {
         dispatch(getProductDetails(params.id));
     }, [dispatch, params.id]);
-
+    const openSnackHandler = () => setOpenSnackError(true);
+    useEffect(() => {
+        (!loading && !productDetails && error) && openSnackHandler();
+    }, [error, loading, productDetails]);
     const options = {
         edit: false,
         color: "rgba(20,20,20,0.1)",
@@ -176,12 +180,11 @@ const ProductDetails = () => {
                     </div>
                 </div>
                 {<Alert
-                    openSnack={openSnack}
-                    setOpenSnack={setOpenSnack}
-                    message="Item Added To Cart Successfully"
+                    openSnack={openSnack || openSnackError}
+                    setOpenSnack={setOpenSnack || setOpenSnackError}
+                    message={openSnack ? "Item Added To Cart Successfully" : error}
                     severity="success"
-                />
-                }
+                />}
             </div>
         }
     </React.Fragment >

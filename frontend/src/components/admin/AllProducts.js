@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Button } from "@mui/material";
 import HelmetProvider from './../SEO/Helmet';
+import Alert from '../Alert';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -55,6 +56,7 @@ const AllProducts = () => {
     const [stock, setStock] = React.useState(0);
     const [delImages, setDelImages] = React.useState([]);
     const [delImagesUrl, setDelImagesUrl] = React.useState([]);
+    const [openSnack, setOpenSnack] = React.useState(false);
 
 
     const handleOpenEdit = (id, name, description, price, category, images, stock) => {
@@ -134,6 +136,12 @@ const AllProducts = () => {
     useEffect(() => {
         (productRem || updateProduct) && (productRem.success === true || updateProduct.success === true) && handleOpen();
     }, [productRem, updateProduct]);
+    const snakcBarOpen = () => setOpenSnack(true);
+    useEffect(() => {
+        (!productsListLoading && productsListError) && snakcBarOpen();
+    }, [productsListError]);
+
+
     const getProducts = () => {
         dispatch(getProductsListAdmin());
     };
@@ -148,7 +156,7 @@ const AllProducts = () => {
                 <span className='text-xl text-gray'>ALL Products</span>
                 <span onClick={() => getProducts()} className='text-xl text-gray cursor-pointer'>Refresh</span>
             </div>
-            {productsListLoading
+            {(productsListLoading || productRemLoading)
                 ?
                 <div className='w-full h-screen relative'>
                     <Loader />
@@ -255,6 +263,13 @@ const AllProducts = () => {
                 </div>
             </form>
         </ModalBasic>}
+        {<Alert
+            openSnack={openSnack}
+            setOpenSnack={setOpenSnack}
+            message={productsListError}
+            severity="error"
+        />
+        }
     </React.Fragment>
 }
 

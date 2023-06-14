@@ -29,7 +29,7 @@ const Account = () => {
     const onchangeAvatar = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
-            if (reader.readyState == 2) {
+            if (reader.readyState === 2) {
                 setAvatar(reader.result);
             }
         };

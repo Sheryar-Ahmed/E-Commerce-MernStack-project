@@ -57,7 +57,7 @@ export default function UserAuth() {
     const handleAvatar = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
-            if (reader.readyState == 2) {
+            if (reader.readyState === 2) {
                 setAvatar(reader.result);
             }
         };
@@ -81,7 +81,6 @@ export default function UserAuth() {
         dispatch(userRegistration(userData));
     }
     const { isAuthenticated, loading, user, error } = useSelector(state => state.user);
-    // let userRedirectUrl = location.search ? location.search.split("=")[1] : '/profile';
     let userRedirectUrl;
     if(location.search){
         userRedirectUrl = location.search.split("=")[1]
@@ -96,7 +95,7 @@ export default function UserAuth() {
         if (isAuthenticated) {
             navigate(userRedirectUrl);
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, navigate, userRedirectUrl]);
 
     return (
         <Box
