@@ -159,7 +159,7 @@ function ResponsiveDrawer(props) {
                         <section className="w-full mx-auto bg-[#20354b] rounded-2xl px-8 py-6 shadow-lg">
                             <div className="mt-6 w-fit mx-auto">
                                 <img
-                                    src={`data:image/jpeg;base64,${user.avatar.url}`}
+                                    src={user && user.avatar.url}
                                     className="rounded-full w-28 "
                                     alt={user && user.name}
                                 />
