@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: `${process.env.REACT_APP_BASE_URL}`,
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200
 }
