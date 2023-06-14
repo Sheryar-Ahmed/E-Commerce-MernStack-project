@@ -59,18 +59,19 @@ const ProductDetails = () => {
             ? <div className='w-full h-screen relative'><Loader /></div>
             : <div>
                 <HelmetProvider
-                    title={productDetails && productDetails.name+" "+ productDetails.description}
+                    title={productDetails && productDetails.name + " " + productDetails.description}
                     description={productDetails && productDetails.description}
                 />
                 <div className='w-full py-16 flex flex-row justify-center items-center flex-wrap gap-0 bg-blue-50'>
                     <div className='sm:px-2 md:px-2 lg:px-7 border border-blue self-stretch flex flex-col items-center justify-center'>
                         <Carousel
                             showThumbs={false}
-                            className='w-[400px] sm:w-[300px] sm:py-2 self-stretch'
+                            className='w-[400px] h-[400px] sm:w-[300px] sm:h-[300px] sm:py-2 self-stretch'
                         >
                             {productDetails && productDetails.images
                                 .map((pic) =>
                                     <img
+                                        className='w-[400px] h-[400px] sm:w-[300px] sm:h-[280px]'
                                         key={pic._id}
                                         src={pic.url}
                                         alt={productDetails.name}

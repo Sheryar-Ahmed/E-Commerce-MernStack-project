@@ -1,8 +1,7 @@
 const expressAsyncHandler = require('express-async-handler');
 const ApiFeatures = require('../utils/apifeatures');
 const products = require('../models/productModel');
-
-
+const cloudinary = require('cloudinary');
 
 // @ get AllProducts 
 // @ Public
@@ -72,6 +71,23 @@ const creatProduct = expressAsyncHandler(async (req, res) => {
     if (!req.body) {
         throw new Error("Enter the key, pairs");
     }
+    let images = [];
+    if (typeof (req.body.images) === "string") {
+        images.push(req.body.images);
+    } else {
+        images = req.body.images;
+    };
+    const imagesLink = [];
+    for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+            folder: 'products',
+        });
+        imagesLink.push({
+            public_id: result.public_id,
+            url: result.secure_url
+        })
+    };
+    req.body.images = imagesLink;
     // passing usr id to the body;
     req.body.user = req.user.id;
     const setProduct = await products.create(req.body);

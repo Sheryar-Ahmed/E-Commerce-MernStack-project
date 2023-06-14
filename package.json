@@ -12,6 +12,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "cloudinary": "^1.37.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -23,6 +24,7 @@
     "mongoose": "^7.0.5",
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.22",
+    "server": "^1.0.38",
     "stripe": "^12.9.0",
     "validator": "^13.9.0"
   }

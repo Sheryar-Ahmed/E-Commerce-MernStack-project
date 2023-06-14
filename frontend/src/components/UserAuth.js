@@ -70,6 +70,7 @@ export default function UserAuth() {
         name,
         email,
         password,
+        avatar,
     };
     const LoginHandler = (e) => {
         e.preventDefault();
@@ -77,7 +78,7 @@ export default function UserAuth() {
     };
     const RegistrationHandler = async (e) => {
         e.preventDefault();
-        dispatch(userRegistration(userData, avatar));
+        dispatch(userRegistration(userData));
     }
     const { isAuthenticated, loading, user, error } = useSelector(state => state.user);
     // let userRedirectUrl = location.search ? location.search.split("=")[1] : '/profile';

@@ -35,13 +35,13 @@ export default function Header() {
   ];
   isAuthenticated && actions.push({ icon: <NavLink to='/profile'><Person3OutlinedIcon /></NavLink >, name: 'Profile' },);
   isAuthenticated && actions.push({ icon: <NavLink to='/order/me'><OrderIcon /></NavLink >, name: 'MY orders' },);
-  isAuthenticated && user.role === 'admin' && actions.push({ icon: <NavLink to='/admin/dashboard'><DashboardIcon /></NavLink >, name: 'Dashboard' },)
+  isAuthenticated && user && user.role === 'admin' && actions.push({ icon: <NavLink to='/admin/dashboard'><DashboardIcon /></NavLink >, name: 'Dashboard' },)
   return (
     <SpeedDial
       ariaLabel="SpeedDial openIcon example"
       sx={{ position: 'fixed', bottom: 16, right: 16 }}
       icon={
-        user && user.avatar && user.avatar.url ? <img className='w-10 h-10 rounded-[50%]' src={`data:image/jpeg;base64,${user.avatar.url}`} alt={user.name} /> : <SpeedDialIcon openIcon={<EditIcon />} />}
+        user && user.avatar && user.avatar.url ? <img className='w-10 h-10 rounded-[50%]' src={user.avatar.url} alt={user.name} /> : <SpeedDialIcon openIcon={<EditIcon />} />}
     >
       {
         actions.map((action) => (

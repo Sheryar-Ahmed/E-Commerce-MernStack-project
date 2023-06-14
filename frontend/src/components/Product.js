@@ -15,11 +15,11 @@ const Product = ({ product }) => {
   }
 
   return (
-    <Link to={'/details/'+product._id} >
+    <Link to={'/details/' + product._id} >
       <div className='p-4 rounded-xl shadow-sm hover:shadow-lg'>
         <div className='w-64'>
-          <div className='bg-blue-100 rounded-xl p-5'>
-            <img src={product.images[0].url} alt={product.name} />
+          <div className='bg-blue-100 rounded-xl p-5 h-[256px]'>
+            <img src={product.images[0].url} alt={product.name} className='w-full h-[216px]' />
           </div>
           <div className='mt-2'>
             <h3 className='font-bold text-lg truncate'>{product.name}</h3>

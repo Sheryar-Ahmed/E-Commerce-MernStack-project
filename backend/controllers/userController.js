@@ -4,6 +4,9 @@ const User = require('../models/userModel');
 const sendTokenWithCookie = require('../utils/cookieToken');
 const sendEmail = require('../utils/sendEmail.js');
 const crypto = require('crypto');
+const cloudinary = require('cloudinary');
+
+
 
 const userRegistration = expressAsyncHandler(async (req, res) => {
     if (!req.body) {
@@ -15,23 +18,26 @@ const userRegistration = expressAsyncHandler(async (req, res) => {
         res.status(400);
         throw new Error("Something is missing");
     };
+    //upload the avatar to the cloudinary
+    const result = await cloudinary.v2.uploader.upload(avatar, {
+        folder: 'avatars',
+    })
+
+    req.body.avatar = {
+        public_id: result.public_id,
+        url: result.secure_url,
+    };
 
     const userExists = await User.findOne({ 'email': email });
     if (userExists) {
         res.status(409);
         throw new Error("An email already exists, try with different email");
     };
-    const registeredUser = await User.create({
-        name,
-        email,
-        password,
-        avatar,
-    });
+    const registeredUser = await User.create(req.body);
     if (!registeredUser) {
         res.status(400)
         throw new Error("User not created, try again");
     };
-
     sendTokenWithCookie(registeredUser, 201, res);
 });
 
@@ -173,12 +179,26 @@ const updatePassword = expressAsyncHandler(async (req, res) => {
 });
 //update User profile
 const updateProfile = expressAsyncHandler(async (req, res) => {
-    const newUserData = {
-        name: req.body.name,
-        email: req.body.email
+
+// delete previous image from the cloudinary by using public id
+    const { result } = await cloudinary.v2.uploader.destroy(req.body.publicId, {
+        folder: 'avatars',
+    });
+
+    // upload new avatar image of the user.
+    let updateAvatar;
+    if (result === 'ok') {
+        updateAvatar = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        });
+
+    } else {
+        throw new Error(result);
+    }
+    req.body.avatar = {
+        public_id: updateAvatar.public_id,
+        url: updateAvatar.url
     };
-    //will add cloudnary later as avatar url etc
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    const user = await User.findByIdAndUpdate(req.user.id, req.body, {
         new: true,
         runValidators: true,
         useFindAndModify: false,
@@ -222,7 +242,7 @@ const updateRole = expressAsyncHandler(async (req, res) => {
     };
 
     const user = await User.findByIdAndUpdate(req.params.id, newUserData);
-    if(!user) {
+    if (!user) {
         throw new Error("User not found with this id")
     }
     res.status(200).json({

@@ -64,18 +64,30 @@ const AddProduct = () => {
         setPersonName(event.target.value)
     };
     //images upload
-    const fileSelection = (event) => {
-        const onSelectedFiles = event.target.files;
-        const selectedFilesArray = Array.from(onSelectedFiles);
-        //get url 
-        const selectedImagesUrl = selectedFilesArray.map((phot, i) => {
-            return {
-                public_id: i,
-                url: URL.createObjectURL(phot)
+    const fileSelection = (e) => {
+        // const onSelectedFiles = event.target.files;
+        // const selectedFilesArray = Array.from(onSelectedFiles);
+        // //get url 
+        // const selectedImagesUrl = selectedFilesArray.map((phot, i) => URL.createObjectURL(phot));
+        // console.log(selectedImagesUrl);
+        // setSelectImage((prev) => prev.concat(selectedImagesUrl));
+        const files = Array.from(e.target.files);
+
+        setSelectImage([]);
+    
+        files.forEach((file) => {
+          const reader = new FileReader();
+    
+          reader.onload = () => {
+            if (reader.readyState === 2) {
+              setSelectImage((old) => [...old, reader.result]);
             }
+          };
+    
+          reader.readAsDataURL(file);
         });
-        console.log(selectedImagesUrl);
-        setSelectImage((prev) => prev.concat(selectedImagesUrl));
+    
+
     };
     const newProductdata = {
         name,
@@ -107,7 +119,7 @@ const AddProduct = () => {
     return hash === '#Newproduct'
         &&
         <div className="flex flex-col items-center justify-center">
-            <HelmetProvider 
+            <HelmetProvider
                 title='Dashboard Add New Product'
             />
             <Typography sx={{ fontSize: '24px' }} component="h2">Add New Product</Typography>
@@ -172,8 +184,8 @@ const AddProduct = () => {
                             <div className="flex flex-col items-center justiy-start gap-0" key={item}>
                                 <img
                                     className="w-20 h-20"
-                                    src={item.url}
-                                    alt={item.public_id}
+                                    src={item}
+                                    alt={item}
                                     loading="lazy"
                                 />
                                 <IconButton

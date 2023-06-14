@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from './Loader';
 import { NavLink } from 'react-router-dom';
@@ -18,16 +18,28 @@ const Account = () => {
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [name, setFullName] = React.useState('');
     const [email, setEmail] = React.useState('');
+    const [publicId, setPublicId] = React.useState('');
+    const [avatar, setAvatar] = React.useState('');
 
     const updatePassData = {
         oldPassword,
         newPassword,
         confirmPassword
     };
-
+    const onchangeAvatar = (e) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState == 2) {
+                setAvatar(reader.result);
+            }
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
     const updatedProfileData = {
         name,
         email,
+        avatar,
+        publicId,
     };
     const handleOpen = () => setOpen(true);
     const handleOpenProf = () => setOpenProf(true);
@@ -38,18 +50,27 @@ const Account = () => {
     const updateProfile = (e) => {
         e.preventDefault();
         dispatch(updatedProfile(updatedProfileData));
-        const timer = setTimeout(() => {
-            dispatch(userDetails());
-        }, 3000);
-        return () => clearTimeout(timer);
     };
 
     const { loading, error, user } = useSelector(state => state.user);
+    //setting public id for removal of the image 
+    useEffect(() => {
+        if (!loading && user) {
+            setPublicId(user.avatar.public_id);
+        }
+    }, [])
+
     const { loadingPass, errorPass, userPass } = useSelector(state => state.updatePass);
     const { updatedUserloading, updatedUserError, updatedUser } = useSelector(state => state.updatedUser);
+
+    const getUpdatedInfo = () => {
+        dispatch(userDetails());
+    };
     return <React.Fragment>
-        <div className='w-full mt-5'>
+        <div className='w-full mt-5 flex flex-row items-center justify-between'>
             <span className='ml-5 w-full text-3xl text-start'>My Profile</span>
+            {!loading && updatedUser.message &&
+                <button onClick={() => getUpdatedInfo()} type="submit" className="text-white bg-gray hover:bg-white hover:text-gray border border-emerald-400 font-medium rounded-lg text-sm px-5 py-1 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Refresh</button>}
         </div>
         <HelmetProvider
             title={user ? `Profile ${user.name}` : 'Profile Page'}
@@ -59,8 +80,8 @@ const Account = () => {
             {loading && <div className='w-full h-screen relative'><Loader /></div>}
             <div className='flex flex-col items-center justify-center gap-5'>
                 <img
-                    className='w-72 h-92 rounded-[50%]'
-                    src={`data:image/jpeg;base64,${user.avatar.url}`}
+                    className='w-72 h-[300px] rounded-full'
+                    src={user.avatar.url && user.avatar.url}
                     alt='check'
                 />
                 <button onClick={handleOpenProf} className='w-72 border border-emerald-400 text-white bg-gray py-1'>Edit Profile</button>
@@ -78,6 +99,10 @@ const Account = () => {
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray dark:text-white">Email</label>
                             <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={user.email} required />
+                        </div>
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray dark:text-white">Avatar</label>
+                            <input onChange={onchangeAvatar} type="file" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                         </div>
                         <button type="submit" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Submit</button>
                     </form>
