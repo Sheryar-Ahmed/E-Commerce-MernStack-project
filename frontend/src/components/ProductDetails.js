@@ -10,6 +10,7 @@ import Reviews from './Reviews';
 import Modal from './Modal';
 import { addItemsToCart } from '../actions/addToCart';
 import HelmetProvider from './SEO/Helmet';
+import Alert from './Alert';
 
 const ProductDetails = () => {
 
@@ -22,12 +23,18 @@ const ProductDetails = () => {
 
     const params = useParams();
     const dispatch = useDispatch();
+
+    const [openSnack, setOpenSnack] = React.useState(false);
+
+
     const { loading, error, productDetails } = useSelector(state => state.productDetails);
     const { isAuthenticated, user } = useSelector(state => state.user)
     const { loadingRev, errorRev, productRev } = useSelector(state => state.productRev);
+
     useEffect(() => {
         dispatch(getProductDetails(params.id));
-    }, [dispatch, params.id])
+    }, [dispatch, params.id]);
+
     const options = {
         edit: false,
         color: "rgba(20,20,20,0.1)",
@@ -53,6 +60,7 @@ const ProductDetails = () => {
 
     const addToCart = () => {
         dispatch(addItemsToCart(params.id, unary));
+        setOpenSnack(true);
     };
     return <React.Fragment>
         {loading
@@ -167,6 +175,13 @@ const ProductDetails = () => {
                             ) : <span className='text-2xl w-[300px] border border-blue-100 text-center bg-blue-100'>No reviews Yet</span>}
                     </div>
                 </div>
+                {<Alert
+                    openSnack={openSnack}
+                    setOpenSnack={setOpenSnack}
+                    message="Item Added To Cart Successfully"
+                    severity="success"
+                />
+                }
             </div>
         }
     </React.Fragment >
