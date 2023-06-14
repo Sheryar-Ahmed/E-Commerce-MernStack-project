@@ -101,6 +101,36 @@ const updateProduct = expressAsyncHandler(async (req, res) => {
     if (!req.params.id) {
         throw new Error("Enter the Id for updation");
     }
+    // get remaining images of the product after the removal of admin and concat them with the new images after uploading and set them to req and update them.
+    const delImagesUrl = req.body.delImagesUrl;
+    const product = await products.findById(req.params.id);
+    let imagesUrl = product.images;
+    for (let i = 0; i < delImagesUrl.length; i++) {
+        const indexdel = product.images.findIndex((ele) => ele.url === delImagesUrl[i]);
+        imagesUrl.splice(indexdel, 1);
+    }
+
+    let delImagesList = req.body.delImages;
+    let images = req.body.images;
+    //delete images of the products from the backend
+    for (let i = 0; i < delImagesList.length; i++) {
+        await cloudinary.v2.uploader.destroy(delImagesList[i], {
+            folder: 'products',
+        });
+    };
+    //upload new images to the cloudinary
+    let imagesLink = [];
+    for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+            folder: 'products',
+        });
+        imagesLink.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+        });
+    };
+    const imagesLinksList = imagesUrl.concat(imagesLink);
+    req.body.images = imagesLinksList;
     const updatedProduct = await products.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
@@ -114,7 +144,6 @@ const updateProduct = expressAsyncHandler(async (req, res) => {
             updatedProduct
         })
         : res.status(400)
-
 });
 // @ Del Product 
 // @ ADMIN

@@ -53,6 +53,9 @@ const AllProducts = () => {
     const [description, setDescription] = React.useState("");
     const [price, setPrice] = React.useState("");
     const [stock, setStock] = React.useState(0);
+    const [delImages, setDelImages] = React.useState([]);
+    const [delImagesUrl, setDelImagesUrl] = React.useState([]);
+
 
     const handleOpenEdit = (id, name, description, price, category, images, stock) => {
         setOpenEdit(true);
@@ -69,17 +72,22 @@ const AllProducts = () => {
         setPersonName(event.target.value)
     };
     //images upload
-    const fileSelection = (event) => {
-        const onSelectedFiles = event.target.files;
-        const selectedFilesArray = Array.from(onSelectedFiles);
-        //get url 
-        const selectedImagesUrl = selectedFilesArray.map((phot, i) => {
-            return {
-                public_id: i,
-                url: URL.createObjectURL(phot)
-            }
+    const fileSelection = (e) => {
+        const files = Array.from(e.target.files);
+
+        setSelectImage([]);
+
+        files.forEach((file) => {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    setSelectImage((old) => [...old, reader.result]);
+                }
+            };
+
+            reader.readAsDataURL(file);
         });
-        setSelectImage((prev) => prev.concat(selectedImagesUrl));
     };
     const newProductdata = {
         name,
@@ -87,6 +95,8 @@ const AllProducts = () => {
         price,
         category: personName,
         images: selectImage,
+        delImages,
+        delImagesUrl,
         stock,
     }
 
@@ -94,6 +104,11 @@ const AllProducts = () => {
     const removeProductHandler = (e, id) => {
         e.preventDefault();
         dispatch(removeProductAdminAction(id));
+    };
+    const deleteImagesHandler = (e, item, itemPublicId, itemUrl) => {
+        setDelImages((old) => [...old, itemPublicId]);
+        setDelImagesUrl((old) => [...old, itemUrl]);
+        setSelectImage(selectImage.filter((e) => e !== item));
     };
     //update Product 
     const updateProductHandler = (e) => {
@@ -209,12 +224,12 @@ const AllProducts = () => {
                             <div className="flex flex-col items-center justiy-start gap-0" key={item.public_id}>
                                 <img
                                     className="w-20 h-20"
-                                    src={item.url}
+                                    src={item.url || item}
                                     alt={item.public_id}
                                     loading="lazy"
                                 />
                                 <IconButton
-                                    onClick={() => setSelectImage(selectImage.filter((e) => e !== item))}
+                                    onClick={(e) => deleteImagesHandler(e, item, item.public_id, item.url)}
                                     aria-label="delete"
                                     color="primary">
                                     <DeleteIcon
