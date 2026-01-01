@@ -1820,11 +1820,10 @@ SOFTWARE.
 **Sheryar Ahmed**  
 Full Stack Engineer | MERN Specialist | Open to Remote Opportunities
 
-- **Portfolio**: [Coming Soon]
+- **Portfolio**: [https://sheryarahmed.netlify.app]
 - **LinkedIn**: [linkedin.com/in/sheryar-ahmed](https://linkedin.com/in/sheryar-ahmed)
-- **Email**: your.email@example.com
+- **Email**: royalsheryar505@gmail.com
 - **GitHub**: [@sheryar-ahmed](https://github.com/sheryar-ahmed)
-- **Twitter**: [@sheryar_dev](https://twitter.com/sheryar_dev)
 
 **Availability**: Open for full-time remote positions and freelance projects  
 **Rate**: $60-80/hour  
